@@ -1,4 +1,0 @@
-def test_receive_something():
-    response = client.post("/dej/mi/coś", json={'first_key': 'some_value'})
-    assert response.json() == {"received": {'first_key': 'some_value'},
-                             "constant_data": "python jest super"}
