@@ -9,6 +9,7 @@ import requests
 
 app = FastAPI()
 
+@app.post('/welcome')
 @app.get('/welcome')
 def get_welcome():
 	return  {"message": "Welcome"}
@@ -17,7 +18,7 @@ def get_welcome():
 app.secret_key = "very constatn and random secret, best 64 characters"
 app.tokens = []
 
-
+@app.get('/login')
 @app.post("/login/")
 def create_cookie(user: str, password: str, response: Response):
 	try :
