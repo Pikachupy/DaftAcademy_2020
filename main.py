@@ -6,18 +6,18 @@ from fastapi import FastAPI, Response, Cookie, HTTPException
 
 app = FastAPI()
 app.secret_key = "very constatn and random secret, best 64 characters"
+app.user={"trudnY": "PaC13Nt", "admin": "admin"}
 
 @app.post("/login/")
 def create_cookie(user: str, password: str, response: Response):
-    session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
-    response.set_cookie(key="session_token", value=session_token)
-    return {"message": "Welcome"}
-
-@app.get("/data/")
-def create_cookie(*, response: Response, session_token: str = Cookie(None)):
-    if session_token not in Database......... :
-        raise HTTPException(status_code=403, detail="Unathorised")
-    response.set_cookie(key="session_token", value=session_token)
+    if user in app.user and password == app.user[user]:
+        session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
+        response.set_cookie(key="session_token", value=session_token)
+        print('logged in')
+        response = Response(url='https://pikachupy.herokuapp.com/welcome')
+        return response
+    else:
+		raise HTTPException(status_code=401)
 
 
 class Patient(BaseModel):
@@ -49,9 +49,6 @@ class log(BaseModel):
 class resp(BaseModel):
     received: Dict
 
-@app.post("/login", response_model=resp)
-def receive_something(rq: log):
-    return log(received=rq.dict())
 
 
 @app.post("/patient")
