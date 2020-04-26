@@ -1,44 +1,39 @@
-from starlette.responses import RedirectResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from fastapi import FastAPI, Response, status
-from fastapi import Depends, Cookie, HTTPException
+from fastapi import FastAPI, Response, HTTPException
 from hashlib import sha256
-
-import secrets
-
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from starlette.responses import RedirectResponse
 
 app = FastAPI()
+app.num = 0
+app.count = -1
+app.users = {"trudnY": "PaC13Nt", "admin": "admin"}
+app.secret = "secret"
+app.tokens = []
+patlist = []
 
 
-@app.get('/welcome')
-def get_welcome():
-    return {"message": "Hello, welcome!"}
+@app.get("/")
+def root():
+	return {"message": "Hello World during the coronavirus pandemic!"}
 
 
-app.secret_key = "very constatn and random secret, best 64 characters"
-app.tokens_list = []
-security = HTTPBasic()
-app.users={"admin": "admin"}
-app.tokens=[]
+@app.get("/welcome")
+def welcome_to_the_jungle():
+	return {"message": "Welcome to the jungle! We have funny games!"}
 
 
 @app.post("/login/")
-def create_cookie(user: str, password: str, response: Response):
-    if user in app.users and password == app.users[user]:
-        session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
-        app.tokens.append(session_token)
-        response.set_cookie(key="session_token", value=session_token)
-        response = RedirectResponse(url = 'https://pikachupy.herokuapp.com/welcome')
-        response(status_code=status.HTTP_302_FOUND)
-        return response
-    else:
-        raise HTTPException(status_code=403, detail="Unathorised")
-
-@app.get("/data/")
-def create_cookie(*, response: Response, session_token: str = Cookie(None)):
-    if session_token not in app.tokens :
-        raise HTTPException(status_code=403, detail="Unathorised")
-    response.set_cookie(key="session_token", value=session_token)
+def login_to_app(user: str, passw: str, response: Response):
+	if user in app.users and passw == app.users[user]:
+		s_token = sha256(bytes(f"{user}{passw}{app.secret}", encoding='utf8')).hexdigest()
+		app.tokens += s_token
+		response.set_cookie(key="session_token",value=s_token)
+		response = RedirectResponse(url='/welcome')
+		print('logged in')
+		return response
+	else:
+		raise HTTPException(status_code=401)
 '''
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
     correct_username = secrets.compare_digest(credentials.username, "trudnY")
