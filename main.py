@@ -18,8 +18,28 @@ def get_welcome():
 app.secret_key = "very constatn and random secret, best 64 characters"
 app.tokens_list = []
 security = HTTPBasic()
+app.users={"admin": "admin"}
+app.tokens=[]
 
 
+@app.post("/login/")
+def create_cookie(user: str, password: str, response: Response):
+    if user in app.users and password == app.users[user]:
+        session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
+        app.tokens.append(session_token)
+        response.set_cookie(key="session_token", value=session_token)
+        response = RedirectResponse(url = 'https://pikachupy.herokuapp.com/welcome')
+        response(status_code=status.HTTP_302_FOUND)
+        return response
+    else:
+        raise HTTPException(status_code=403, detail="Unathorised")
+
+@app.get("/data/")
+def create_cookie(*, response: Response, session_token: str = Cookie(None)):
+    if session_token not in app.tokens :
+        raise HTTPException(status_code=403, detail="Unathorised")
+    response.set_cookie(key="session_token", value=session_token)
+'''
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
     correct_username = secrets.compare_digest(credentials.username, "trudnY")
     correct_password = secrets.compare_digest(credentials.password, "PaC13Nt")
@@ -51,3 +71,4 @@ def login(
     response(status_code=status.HTTP_302_FOUND)
     
     return response
+'''
