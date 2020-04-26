@@ -9,7 +9,6 @@ import requests
 
 app = FastAPI()
 
-@app.post('/welcome')
 @app.get('/welcome')
 def get_welcome():
 	return  {"message": "Welcome"}
