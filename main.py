@@ -23,8 +23,6 @@ def create_cookie(user: str, password: str, response: Response):
 class Patient(BaseModel):
     name: str
     surename: str
-
-
 app = FastAPI()
 app.counter: int = 0
 app.storage: Dict[int, Patient] = {}
