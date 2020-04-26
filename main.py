@@ -1,21 +1,23 @@
-from fastapi import FastAPI, Response, HTTPException
-from hashlib import sha256
-from pydantic import BaseModel
-from fastapi.responses import JSONResponse
 from starlette.responses import RedirectResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi import FastAPI, Response, status
+from fastapi import Depends, Cookie, HTTPException
+from hashlib import sha256
+
+import secrets
+
 
 app = FastAPI()
-app.num = 0
-app.count = -1
-app.users = {"trudnY": "PaC13Nt", "admin": "admin"}
-app.secret = "secret"
-app.tokens = []
-patlist = []
 
 
 @app.get("/welcome")
-def welcome_to_the_jungle():
-	return {"message": "Welcome to the jungle! We have funny games!"}
+def get_welcome():
+	return "Hello!"
+
+
+app.secret_key = "very constatn and random secret, best 64 characters"
+app.tokens_list = []
+security = HTTPBasic()
 
 
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
@@ -33,7 +35,7 @@ def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
 
 
 
-@app.post("/login/")
+@app.post("/login")
 def login(
     user: str, password: str, response: Response,
     credentials_user = Depends(get_current_username)
@@ -45,8 +47,7 @@ def login(
     response.set_cookie(key="session_token", value=session_token)
     
         
-    response = RedirectResponse(url = 'https://pikachupy.herokuapp.com/welcome')
-    response(status_code=status.HTTP_302_FOUND)
+    response = RedirectResponse(url = "/welcome")
+    response.status_code = status.HTTP_302_FOUND
     
     return response
-
