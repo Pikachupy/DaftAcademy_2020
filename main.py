@@ -10,7 +10,7 @@ import secrets
 app = FastAPI()
 
 
-@app.get("/welcome")
+@app.get('/welcome')
 def get_welcome():
 	return "Hello!"
 
