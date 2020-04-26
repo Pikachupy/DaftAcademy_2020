@@ -31,23 +31,22 @@ def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
             # detail="Incorrect email or password",
             # headers={"WWW-Authenticate": "Basic"},
         )
-    else:
-	session_token = sha256(bytes(f"{user}{password}{app.secret_key}", encoding='utf8')).hexdigest()
-	return session_token
     return credentials.username
 
 
 
 @app.post("/login")
 def login(
-    response: Response,
+    user: str, password: str, response: Response,
     credentials_user = Depends(get_current_username)
     ):
-   
+    
+    session_token = sha256(bytes(f"{user}{password}{app.secret_key}", encoding='utf8')).hexdigest()
     app.tokens_list.append(session_token)
     
     response.set_cookie(key="session_token", value=session_token)
-
+    
+        
     response = RedirectResponse(url = "/welcome")
     response.status_code = status.HTTP_302_FOUND
     
