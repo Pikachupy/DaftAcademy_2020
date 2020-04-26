@@ -27,6 +27,17 @@ def read_request(request: Request):
     return {"method": request.method}
 
 
+class log(BaseModel):
+    first_key: str
+        
+class resp(BaseModel):
+    received: Dict
+
+@app.post("/login", response_model=resp)
+def receive_something(rq: log):
+    return log(received=rq.dict())
+
+
 @app.post("/patient")
 def show_data(patient: Patient):
     resp = {"id": app.counter, "patient": patient}
