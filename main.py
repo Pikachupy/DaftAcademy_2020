@@ -5,6 +5,10 @@ from fastapi import Depends, Cookie, HTTPException
 from hashlib import sha256
 import secrets
 
+from django.http import HttpResponse
+
+from .loader import get_template, select_template
+
 from starlette.authentication import requires
 from starlette.authentication import (
     AuthenticationBackend, AuthenticationError, SimpleUser, UnauthenticatedUser,
@@ -16,13 +20,13 @@ app = FastAPI()
 
 @requires(['authenticated'])
 @app.get('/welcome')
-async def get_welcome(request):
+async def get_welcome(request: Request):
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
 
 @app.get('/')
 def get_welcome():
-	return {"message": "Hello World, homepage!"}
+	return templates.TemplateResponse("welcome.html", {"request":request, "user" : app.sesions[session_token]})
 
 app.secret_key = "very constatn and random secret, best 64 characters"
 app.tokens = []
