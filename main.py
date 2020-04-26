@@ -11,16 +11,17 @@ from starlette.authentication import (
     AuthCredentials
 )
 
+AuthCredentials(["unauthenticated"])
 app = FastAPI()
 
-@requires(['authenticated'],status_code=401)
+@requires(['authenticated'])
 @app.get('/welcome')
 def get_welcome(request):
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
-@requires(['unauthenticated'],status_code=401)
-@app.get('/unwelcome')
-def get_unwelcome(request):
+@requires(['unauthenticated'])
+@app.get('/welcome')
+def get_welcome(request):
 	raise HTTPException(status_code = 401)
 
 @app.get('/')
