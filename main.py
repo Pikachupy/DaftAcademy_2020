@@ -46,8 +46,9 @@ def login(
     
     response.set_cookie(key="session_token", value=session_token)
     
-    assert scope['type'] == 'http'    
+     
     response = RedirectResponse(url = "/welcome")
     response = response(status_code = 302)
+    response.headers["Location"]="/welcome"
     
     return response(scope)
