@@ -18,6 +18,9 @@ app.storage: Dict[int, Patient] = {}
 def read_root():
     return {"message": "Hello World during the coronavirus pandemic!"}
 
+@app.get('/welcome')
+def read_root():
+    return {"message": "Helloooo!"}
 
 @app.api_route(path="/method", methods=["GET", "POST", "DELETE", "PUT", "OPTIONS"])
 def read_request(request: Request):
