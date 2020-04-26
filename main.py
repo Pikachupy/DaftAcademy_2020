@@ -18,19 +18,6 @@ def welcome_to_the_jungle():
 	return {"message": "Welcome to the jungle! We have funny games!"}
 
 
-@app.post("/login/")
-def login_to_app(user: str, passw: str, response: Response):
-	if user in app.users and passw == app.users[user]:
-		s_token = sha256(bytes(f"{user}{passw}{app.secret}")).hexdigest()
-		app.tokens += s_token
-		response.set_cookie(key="s_token",value=s_token)
-		response = RedirectResponse(url='/welcome')
-		print('logged in')
-		response(status_code=status.HTTP_302_FOUND)
-		RedirectResponse(url='/welcome')
-	else:
-		raise HTTPException(status_code=403, detail="Unathorised")
-'''
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
     correct_username = secrets.compare_digest(credentials.username, "trudnY")
     correct_password = secrets.compare_digest(credentials.password, "PaC13Nt")
@@ -61,5 +48,5 @@ def login(
     response = RedirectResponse(url = 'https://pikachupy.herokuapp.com/welcome')
     response(status_code=status.HTTP_302_FOUND)
     
-    return RedirectResponse(url='/welcome')
-'''
+    RedirectResponse(url='/welcome')
+
