@@ -23,6 +23,7 @@ app.tokens = []
 def create_cookie(user: str, password: str, response: Response):
 	try :
 		if user == 'trudnY' and password == 'PaC13Nt':
+			return  {"message": "Welcome1"}
 			session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
 			app.tokens+=session_token
 			response = RedirectResponse(url='/welcome')
@@ -30,8 +31,10 @@ def create_cookie(user: str, password: str, response: Response):
 			response.status_code=302
 			return response
 		else:
+			return  {"message": "Welcome2"}
 			raise AuthenticationError('Invalid basic auth credentials')
 	except KeyError: 
+		return  {"message": "Welcome3"}
 		raise HTTPException(401,"User does not exists")
 		
 '''
