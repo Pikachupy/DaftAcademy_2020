@@ -48,5 +48,5 @@ def login(
     response.status_code = 302
     response.headers["Location"]="/welcome"
     
-    return response
+    return Response(status_code=status.HTTP_302_FOUND)
 
