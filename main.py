@@ -1,36 +1,45 @@
-from fastapi import FastAPI, Response, HTTPException
-from hashlib import sha256
-from pydantic import BaseModel
-from fastapi.responses import JSONResponse
-from starlette.responses import RedirectResponse
-
-app = FastAPI()
-app.num = 0
-app.count = -1
-app.users = {"trudnY": "PaC13Nt", "admin": "admin"}
-app.secret = "secret"
-app.tokens = []
-patlist = []
+from starlette.authentication import (
+    AuthenticationBackend, AuthenticationError, SimpleUser, UnauthenticatedUser,
+    AuthCredentials
+)
+from starlette.middleware import Middleware
+from starlette.middleware.authentication import AuthenticationMiddleware
+from starlette.responses import PlainTextResponse
+from starlette.routing import Route
+import base64
+import binascii
 
 
-@app.get("/")
-def root():
-	return {"message": "Hello World during the coronavirus pandemic!"}
+class BasicAuthBackend(AuthenticationBackend):
+    async def authenticate(self, request):
+        if "Authorization" not in request.headers:
+            return
+
+        auth = request.headers["Authorization"]
+        try:
+            scheme, credentials = auth.split()
+            if scheme.lower() != 'basic':
+                return
+            decoded = base64.b64decode(credentials).decode("ascii")
+        except (ValueError, UnicodeDecodeError, binascii.Error) as exc:
+            raise AuthenticationError('Invalid basic auth credentials')
+
+        username, _, password = decoded.partition(":")
+        # TODO: You'd want to verify the username and password here.
+        return AuthCredentials(["authenticated"]), SimpleUser(username)
 
 
-@app.get("/welcome")
-def welcome_to_the_jungle():
-	return {"message": "Welcome to the jungle! We have funny games!"}
+async def homepage(request):
+    if request.user.is_authenticated:
+        return PlainTextResponse('Hello, ' + request.user.display_name)
+    return PlainTextResponse('Hello, you')
 
+routes = [
+    Route("/", endpoint=homepage)
+]
 
-@app.post("/login")
-def login_to_app(user: str, passw: str, response: Response):
-	if user in app.users and passw == app.users[user]:
-		s_token = sha256(bytes(f"{user}{passw}{app.secret}", encoding='utf8')).hexdigest()
-		app.tokens += s_token
-		response.set_cookie(key="session_token",value=s_token)
-		response = RedirectResponse(url='/welcome')
-		print('logged in')
-		return response
-	else:
-		raise HTTPException(status_code=401)
+middleware = [
+    Middleware(AuthenticationMiddleware, backend=BasicAuthBackend())
+]
+
+app = Starlette(routes=routes, middleware=middleware)
