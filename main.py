@@ -47,10 +47,8 @@ def login(
     response.set_cookie(key="session_token", value=session_token)
     
         
-    response = RedirectResponse(url = "https://pikachupy.herokuapp.com/welcome")
-    response.status_code = status.HTTP_302_FOUND
+    response = RedirectResponse(url = '/welcome')
+    response.status_code = status.HTTP_301_FOUND
     
-    return response(
-    user: str, password: str, response: Response,
-    credentials_user
+    return response
     )
