@@ -15,7 +15,7 @@ from starlette.authentication import (
 
 app = FastAPI()
 
-@requires("authenticated")
+
 @app.get('/welcome')
 async def get_welcome(request: Request):
 	return {"message": "Hello World during the coronavirus pandemic!"}
@@ -46,12 +46,12 @@ def login(response: Response,s_token = Depends(user)):
 	response.set_cookie(key="s_token", value=s_token)
 	response = RedirectResponse(url = '/welcome')
 	response.status_code = 302
-	return response,AuthCredentials(["authenticated"])
+	return response
 
 
 @app.post('/logout')
 def logout(response: Response):
 	response = RedirectResponse(url = '/')
 	response.status_code = 302
-	return response,AuthCredentials(["unauthenticated"])
+	return response
 	
