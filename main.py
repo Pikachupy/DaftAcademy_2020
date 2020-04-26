@@ -5,18 +5,19 @@ from fastapi import Depends, Cookie, HTTPException
 from hashlib import sha256
 
 import secrets
-import requests
+
 
 app = FastAPI()
 
-@app.get('/welcome')
+
+@app.get("/welcome")
 def get_welcome():
-	return  {"message": "Welcome"}
+	return "Hello!"
 
 
 app.secret_key = "very constatn and random secret, best 64 characters"
-app.tokens = []
-
+app.tokens_list = []
+security = HTTPBasic()
 
 
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
@@ -30,24 +31,24 @@ def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
             # detail="Incorrect email or password",
             # headers={"WWW-Authenticate": "Basic"},
         )
+    else:
+	session_token = sha256(bytes(f"{user}{password}{app.secret_key}", encoding='utf8')).hexdigest()
+	return session_token
     return credentials.username
 
 
 
-@app.post('/login')
+@app.post("/login")
 def login(
-    user: str, password: str, response: Response,
+    response: Response,
     credentials_user = Depends(get_current_username)
     ):
-    
-    session_token = sha256(bytes(f"{user}{password}{app.secret_key}", encoding='utf8')).hexdigest()
-    app.tokens_list += session_token
-    
    
+    app.tokens_list.append(session_token)
     
-    response= RedirectResponse(url='/welcome')
     response.set_cookie(key="session_token", value=session_token)
-    response.status_code=302
+
+    response = RedirectResponse(url = "/welcome")
+    response.status_code = status.HTTP_302_FOUND
     
     return response
-
