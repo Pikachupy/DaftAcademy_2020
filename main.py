@@ -17,7 +17,7 @@ app = FastAPI()
 
 
 @app.get('/welcome')
-async def get_welcome(request: Request):
+def get_welcome():
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
 
