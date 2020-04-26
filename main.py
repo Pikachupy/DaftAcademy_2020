@@ -13,6 +13,7 @@ from starlette.authentication import (
 
 app = FastAPI()
 
+@requires(['authenticated'])
 @app.get('/welcome')
 def get_welcome():
 	return {"message": "Hello World during the coronavirus pandemic!"}
