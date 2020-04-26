@@ -21,7 +21,7 @@ def user(credentials: HTTPBasicCredentials = Depends(security)):
 	correct_username = secrets.compare_digest(credentials.username, 'trudnY')
 	correct_password = secrets.compare_digest(credentials.password, 'PaC13Nt')
 	if not (correct_username and correct_password):
-		raise HTTPException(status_code=401)
+		raise HTTPException(status_code = 401)
 	else:
 		s_token = sha256(bytes(f"{credentials.username}{credentials.password}{app.secret_key}", encoding='utf8')).hexdigest()
 		return s_token
@@ -32,5 +32,5 @@ def login(response: Response, s_token = Depends(user)):
 	app.tokens += s_token
 	response.set_cookie(key="s_token", value=s_token)
 	response = RedirectResponse(url = '/welcome')
-	response.status_code = status.HTTP_302_FOUND
+	response.status_code = 302
 	return response
