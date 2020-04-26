@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/welcome")
 def get_welcome():
-	return "Hello!"
+	return {"message": "Hello, welcome!"}
 
 
 app.secret_key = "very constatn and random secret, best 64 characters"
@@ -35,7 +35,7 @@ def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
 
 
 
-@app.post("/login")
+@app.post("/login/")
 def login(
     user: str, password: str, response: Response,
     credentials_user = Depends(get_current_username)
