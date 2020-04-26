@@ -23,7 +23,6 @@ class BasicAuthBackend(AuthenticationBackend):
     async def authenticate(self, request):
         if "Authorization" not in request.headers:
             return
-
         auth = request.headers["Authorization"]
         try:
             scheme, credentials = auth.split()
