@@ -40,12 +40,12 @@ def user(credentials: HTTPBasicCredentials = Depends(security)):
 
 	
 @app.post('/login')
-def login(response: Response, s_token = Depends(user)):
+def login(response: Response,s_token = Depends(user)):
 	app.tokens += s_token
 	response.set_cookie(key="s_token", value=s_token)
 	response = RedirectResponse(url = '/welcome')
 	response.status_code = 302
-	return response
+	return response,AuthCredentials(["authenticated"])
 
 
 @app.post('/logout')
