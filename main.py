@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/welcome")
 def get_welcome():
-	return {"message": "Hello, welcome!"}
+    return {"message": "Hello, welcome!"}
 
 
 app.secret_key = "very constatn and random secret, best 64 characters"
