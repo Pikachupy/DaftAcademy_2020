@@ -27,7 +27,7 @@ def login_to_app(user: str, passw: str, response: Response):
 		response = RedirectResponse(url='/welcome')
 		print('logged in')
 		response(status_code=status.HTTP_302_FOUND)
-		return response
+		RedirectResponse(url='/welcome')
 	else:
 		raise HTTPException(status_code=403, detail="Unathorised")
 '''
