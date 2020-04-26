@@ -45,8 +45,8 @@ def login(
     
     response.set_cookie(key="session_token", value=session_token)
     
-    response.status_code = 302
-    response.headers["Location"]="/welcome"
+    Response.status_code = 302
+    Response.headers["Location"]="/welcome"
     
-    return Response(status_code=status.HTTP_302_FOUND)
+    return Response
 
