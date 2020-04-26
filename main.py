@@ -58,6 +58,9 @@ def create_cookie(user: str, password: str, response: Response):
     		response.set_cookie(key="session_token", value=session_token)
 		response.status_code=302
     		return response
+	else:
+		raise AuthenticationError('Invalid basic auth credentials')
+		
 
 @app.get("/data/")
 def create_cookie(*, response: Response, session_token: str = Cookie(None)):
