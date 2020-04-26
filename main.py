@@ -45,10 +45,10 @@ def login(response: Response, s_token = Depends(user)):
 	response.status_code = 302
 	return response
 
-@requires(['authenticated'])
+
 @app.post('/logout')
 def logout(response: Response):
 	response = RedirectResponse(url = '/')
 	response.status_code = 302
-	return AuthCredentials(["nauthenticated"]),response
+	return response
 	
