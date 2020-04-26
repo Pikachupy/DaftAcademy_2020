@@ -48,7 +48,7 @@ def login(
     
      
     response = RedirectResponse(url = "/welcome")
-    response = response(status_code = 302)
+    response.status_code = 302
     response.headers["Location"]="/welcome"
     
     return response(scope)
