@@ -1,5 +1,4 @@
 from typing import Dict
-
 from fastapi import FastAPI, Request, Response, status
 from pydantic import BaseModel
 from hashlib import sha256
