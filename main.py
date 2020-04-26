@@ -13,9 +13,9 @@ from starlette.authentication import (
 
 app = FastAPI()
 
-@requires(['authenticated'])
+@requires(['authenticated'],status_code=404)
 @app.get('/welcome')
-def get_welcome():
+def get_welcome(request):
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
 
