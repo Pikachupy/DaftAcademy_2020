@@ -2,7 +2,24 @@ from typing import Dict
 
 from fastapi import FastAPI, Request, Response, status
 from pydantic import BaseModel
+from hashlib import sha256
+from fastapi import FastAPI, Response, Cookie, HTTPException
 
+app = FastAPI()
+app.secret_key = "very constatn and random secret, best 64 characters"
+
+
+@app.post("/login/")
+def create_cookie(user: str, password: str, response: Response):
+    session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
+    response.set_cookie(key="session_token", value=session_token)
+    return {"message": "Welcome"}
+
+@app.get("/data/")
+def create_cookie(*, response: Response, session_token: str = Cookie(None)):
+    if session_token not in Database......... :
+        raise HTTPException(status_code=403, detail="Unathorised")
+    response.set_cookie(key="session_token", value=session_token)
 
 class Patient(BaseModel):
     name: str
