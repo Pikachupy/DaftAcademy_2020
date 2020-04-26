@@ -48,6 +48,6 @@ def login(
     
         
     response = RedirectResponse(url = "/welcome")
-    response.status_code = status.HTTP_302_FOUND
+    response = Response(status_code = 302)
     
     return response
