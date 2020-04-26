@@ -16,13 +16,9 @@ app = FastAPI()
 
 @requires(['authenticated'])
 @app.get('/welcome')
-def get_welcome(request):
+async def get_welcome(request):
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
-@requires(['unauthenticated'])
-@app.get('/welcome')
-def get_welcome(request):
-	raise HTTPException(status_code = 401)
 
 @app.get('/')
 def get_welcome():
