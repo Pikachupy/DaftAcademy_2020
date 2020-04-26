@@ -16,7 +16,7 @@ def get_welcome():
 
 
 app.secret_key = "very constatn and random secret, best 64 characters"
-app.tokens_list = []
+app.tokens = []
 security = HTTPBasic()
 
 
@@ -31,18 +31,20 @@ def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
             # detail="Incorrect email or password",
             # headers={"WWW-Authenticate": "Basic"},
         )
-    return credentials.username
+    else:
+	session_token = sha256(bytes(f"{credentials.username}{credentials.password}{app.secret_key}", encoding='utf8')).hexdigest()
+	return session_token
+    
 
 
 
 @app.post("/login")
 def login(
-    user: str, password: str, response: Response,
-    credentials_user = Depends(get_current_username)
+    response: Response,
+    session_token = Depends(get_current_username)
     ):
     
-    session_token = sha256(bytes(f"{user}{password}{app.secret_key}", encoding='utf8')).hexdigest()
-    app.tokens_list.append(session_token)
+    app.tokens+=(session_token)
     
     response.set_cookie(key="session_token", value=session_token)
     
