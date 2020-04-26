@@ -45,7 +45,7 @@ def login(
     
     response.set_cookie(key="session_token", value=session_token)
     
-    response= requests.get('https://pikachupy.herokuapp.com/welcome', allow_redirects=False)
+    response= requests.post('https://pikachupy.herokuapp.com/welcome', allow_redirects=False)
     
     return response
 
