@@ -5,7 +5,7 @@ from fastapi import Depends, Cookie, HTTPException
 from hashlib import sha256
 
 import secrets
-
+import requests
 
 app = FastAPI()
 
@@ -45,8 +45,7 @@ def login(
     
     response.set_cookie(key="session_token", value=session_token)
     
-    Response.status_code = 302
-    Response.headers["Location"]="/welcome"
+    response= requests.get('https://pikachupy.herokuapp.com/welcome', allow_redirects=False)
     
-    return Response
+    return response
 
