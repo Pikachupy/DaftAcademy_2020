@@ -8,7 +8,40 @@ import secrets
 
 
 app = FastAPI()
+def is_logged(session_token):
+	def outer(func):
+		@wraps(func)
+		def inner(*args,**kwargs):
+			if session_token in app.sesions:
+				return func(*args,**kwargs)
+			else :
+				raise  HTTPException(401,f"Your session(Cookie) :{session_token}, logged sessions: {app.sesions}")
+		return inner
+	return outer
+  
+@app.post('/welcome')
+@app.get("/welcome")
+@is_logged(session_token=Cookie(None))
+def welcome(request: Request):
+	return templates.TemplateResponse("welcome.html", {"request":request, "user" : app.sesions[session_token]})
 
+
+@app.get('/login') # zeby latwo w przegladarce sie zalogowac
+@app.post("/login")
+def login( response: Response, credentials: HTTPBasicCredentials = Depends(security)):
+	try :
+		if credentials.password==app.users[credentials.username]:
+			s_token = sha256(bytes(f"{credentials.username}{credentials.password}{app.secret_key}", encoding='utf8')).hexdigest()
+			response.set_cookie(key="session_token",value=s_token)
+			response.status_code=302
+			response.headers["Location"]="/welcome"
+			app.sesions[s_token]=credentials.username
+			return response
+		else: 
+			raise HTTPException(401,'Incorrect password')
+	except KeyError: 
+		raise HTTPException(401,"User does not exists")
+'''
 
 @app.get("/welcome")
 def get_welcome():
@@ -50,3 +83,4 @@ def login(
     response.headers["Location"]="/welcome"
     
     return response
+'''
