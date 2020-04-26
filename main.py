@@ -5,12 +5,22 @@ from fastapi import Depends, Cookie, HTTPException
 from hashlib import sha256
 import secrets
 
+from starlette.authentication import requires
+from starlette.authentication import (
+    AuthenticationBackend, AuthenticationError, SimpleUser, UnauthenticatedUser,
+    AuthCredentials
+)
+
 app = FastAPI()
 
 @app.get('/welcome')
 def get_welcome():
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
+
+@app.get('/')
+def get_welcome():
+	return {"message": "Hello World, homepage!"}
 
 app.secret_key = "very constatn and random secret, best 64 characters"
 app.tokens = []
@@ -24,7 +34,7 @@ def user(credentials: HTTPBasicCredentials = Depends(security)):
 		raise HTTPException(status_code = 401)
 	else:
 		s_token = sha256(bytes(f"{credentials.username}{credentials.password}{app.secret_key}", encoding='utf8')).hexdigest()
-		return s_token
+		return s_token, AuthCredentials(["authenticated"]), SimpleUser(credentials.username)
 
 	
 @app.post('/login')
@@ -34,3 +44,11 @@ def login(response: Response, s_token = Depends(user)):
 	response = RedirectResponse(url = '/welcome')
 	response.status_code = 302
 	return response
+
+@requires(['authenticated'])
+@app.post('/logout')
+def logout(response: Response):
+	response = RedirectResponse(url = '/')
+	response.status_code = 302
+	return AuthCredentials(["nauthenticated"]),response
+	
