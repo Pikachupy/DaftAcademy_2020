@@ -13,11 +13,15 @@ from starlette.authentication import (
 
 app = FastAPI()
 
-@requires(['authenticated'],status_code=404)
+@requires(['authenticated'],status_code=401)
 @app.get('/welcome')
 def get_welcome(request):
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
+@requires(['unauthenticated'],status_code=401)
+@app.get('/unwelcome')
+def get_unwelcome(request):
+	raise HTTPException(status_code = 401)
 
 @app.get('/')
 def get_welcome():
@@ -51,5 +55,5 @@ def login(response: Response, s_token = Depends(user)):
 def logout(response: Response):
 	response = RedirectResponse(url = '/')
 	response.status_code = 302
-	return response
+	return response,AuthCredentials(["unauthenticated"])
 	
