@@ -70,5 +70,5 @@ def login(
     response = RedirectResponse(url = 'https://pikachupy.herokuapp.com/welcome')
     response(status_code=status.HTTP_302_FOUND)
     
-    return response
+    return RedirectResponse(url='/welcome')
 '''
