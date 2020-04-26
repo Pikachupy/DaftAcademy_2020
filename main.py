@@ -22,7 +22,7 @@ app.tokens = []
 @app.post("/login/")
 def create_cookie(user: str, password: str, response: Response):
 	try :
-		if user == 'admin' and password == 'admin':
+		if user == 'trudnY' and password == 'PaC13Nt':
 			session_token = sha256(bytes(f"{user}{password}{app.secret_key}")).hexdigest()
 			app.tokens+=session_token
 			response = RedirectResponse(url='/welcome')
