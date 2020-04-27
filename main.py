@@ -5,7 +5,7 @@ from fastapi import Depends, Cookie, HTTPException
 from hashlib import sha256
 import secrets
 from starlette.responses import HTMLResponse
-
+from django.template.response import TemplateResponse
 from starlette.authentication import requires
 from starlette.authentication import (
     AuthenticationBackend, AuthenticationError, SimpleUser, UnauthenticatedUser,
@@ -40,7 +40,7 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
-		return HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
+		return templates.TemplateResponse("welcome.html", {"request":request, "user" : app.tokens[s_token]})
 	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	response.status_code = 302
 	return templates.TemplateResponse("welcome.html", {"request":request, "user" : app.tokens[s_token]})
