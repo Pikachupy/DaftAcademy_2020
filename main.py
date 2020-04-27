@@ -96,7 +96,6 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 		response.status_code = 302
 		return response
 	response.status_code = 302
-
 	if pk in app.storage:
 		return app.storage.get(pk)
 	return response
@@ -108,6 +107,9 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 		response.status_code = 302
 		return response
 	response.status_code = 302
+	if app.storage == {}:
+		response.status_code = 302
+		return response
 	if pk == 0:
 		response.status_code = 302
 		return response
