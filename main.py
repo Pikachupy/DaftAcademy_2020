@@ -18,6 +18,6 @@ async def shutdown():
 async def tracks_with_artist():
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('''
-     SELECT * FROM Tracks LIMIT 10 OFFSET 0;
+     SELECT * FROM Tracks LIMIT 10 OFFSET 0 ORDER BY TrackId;
      ''').fetchall()
     return data
