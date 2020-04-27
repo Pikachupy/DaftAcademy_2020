@@ -1,6 +1,6 @@
 import sqlite3
 from fastapi import FastAPI
-
+from fastapi import Depends, Cookie, HTTPException
 
 app = FastAPI()
 
@@ -14,14 +14,19 @@ async def startup():
 async def shutdown():
     app.db_connection.close()
 
-
+def getget():
+    page = 0
+    per_page = 10
+    pg = (per_page, page)
+    query = '''SELECT * FROM Tracks ORDER BY TrackId LIMIT %s OFFSET %s'''
+    return query,pg
 
 @app.get("/tracks")
 async def tracks_with_artist():
     try:
         app.db_connection.row_factory = sqlite3.Row
-        query = '''SELECT * FROM Tracks ORDER BY TrackId LIMIT 10 OFFSET 0'''
-        data = app.db_connection.execute(query).fetchall()
+        query,pg = Depends(getget)
+        data = app.db_connection.execute(query,pg).fetchall()
         return data
     except mysql.connector.Error as error:
         print("parameterized query failed {}".format(error))
