@@ -39,11 +39,11 @@ def user(credentials: HTTPBasicCredentials = Depends(security)):
 def get_welcome(response: Response, s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
-		response = HTMLResponse('<html><body><h1><div id="greeting">Hello, {{ user }}!</div></h1></body></html>')
+		response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 		return response
-	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, {{ user }}!</div></h1></body></html>')
+	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	response.status_code = 302
-	return HTMLResponse('<html><body><h1 id="greeting">Hello, {{ user }}!</h1></body></html>')
+	return HTMLResponse('<html><body><h1 id="greeting">Hello, trudnY!</h1></body></html>')
 	
 	
 	
