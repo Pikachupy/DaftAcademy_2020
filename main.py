@@ -42,7 +42,7 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 		return response
 	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	response.status_code = 302
-	return json.dumps({'html':'<body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
+	return json.dumps({'html':'<body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>'})
 	
 
 
