@@ -66,23 +66,23 @@ def logout(response: Response):
 	
 	
 @app.post("/patient")
-def show_data(patient: Patient, s_token: str = Depends(user)):
+def show_data(response: Response, s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	resp.status_code = 302
-	resp = {"name": "IMIE", "surname": "NAZWISKO"}
+	response.status_code = 302
+	response = {"name": "IMIE", "surname": "NAZWISKO"}
 	app.storage[app.counter] = patient
-	resp = RedirectResponse(url = '/patient/<id>')
+	response = RedirectResponse(url = '/patient/<id>')
 	app.counter += 1
-	return resp
+	return response
 
 @app.get("/patient")
-def show_data(patient: Patient, s_token: str = Depends(user)):
+def show_data(response: Response, s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	resp.status_code = 302
+	response.status_code = 302
 	return app.storage
 
 
@@ -92,7 +92,7 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	resp.status_code = 302
+	response.status_code = 302
 	if pk in app.storage:
 		return app.storage.get(pk)
 	return Response(status_code=status.HTTP_204_NO_CONTENT)
