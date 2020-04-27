@@ -92,7 +92,10 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	response.status_code = 204
+	response.status_code = 302
+	if pk == 0:
+		response.status_code = 302
+		return response
 	if pk in app.storage:
 		return app.storage.get(pk)
 	return response
