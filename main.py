@@ -10,7 +10,7 @@ from starlette.authentication import (
     AuthenticationBackend, AuthenticationError, SimpleUser, UnauthenticatedUser,
     AuthCredentials
 )
-from flask import Flask, render_template
+from flask import Flask, render_template, json, request
 
 app = FastAPI()
 
@@ -42,7 +42,7 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 		return response
 	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	response.status_code = 302
-	return render_template('<!DOCTYPE html><html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
+	return json.dumps({'html':'<body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	
 
 
