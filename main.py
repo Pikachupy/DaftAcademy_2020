@@ -42,7 +42,7 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 		return "You are not allowed to be here!"
 	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, {{ user }}!</div></h1></body></html>')
 	response.status_code = 302
-	return response
+	return HTMLResponse('<html><body><h1><div id="greeting">Hello, {{ user }}!</div></h1></body></html>')
 	
 	
 	
