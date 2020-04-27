@@ -89,6 +89,9 @@ def show_data(response: Response, s_token: str = Depends(user)):
 
 @app.get("/patient/{id}")
 def show_patient(pk: int,s_token: str = Depends(user)):
+	if len(app.storage) == 0:
+		response.status_code = 302
+		return response
 	if pk == 0:
 		response.status_code = 307
 		return response
@@ -107,7 +110,7 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 		response.status_code = 302
 		return response
 	response.status_code = 302
-	if app.storage == {}:
+	if len(app.storage) == 0:
 		response.status_code = 302
 		return response
 	if pk == 0:
