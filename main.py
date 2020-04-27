@@ -4,7 +4,7 @@ from fastapi import FastAPI, Response, status
 from fastapi import Depends, Cookie, HTTPException
 from hashlib import sha256
 import secrets
-
+from starlette.responses import HTMLResponse
 
 from starlette.authentication import requires
 from starlette.authentication import (
@@ -40,8 +40,9 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return "You are not allowed to be here!"
+	response = HTMLResponse('<html><body><h1>Hello, {{ user }}!<id=greeting></h1></body></html>')
 	response.status_code = 302
-	return {"message": "Hello World during the coronavirus pandemic!"}
+	return response
 	
 	
 	
