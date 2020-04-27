@@ -45,7 +45,8 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 	response.status_code = 302
 	return {'<html><body><h1 id="greeting">Hello, trudnY!</h1></body></html>'}
 	
-	
+
+
 	
 @app.post('/login')
 def login(response: Response,s_token = Depends(user)):
@@ -62,3 +63,47 @@ def logout(response: Response):
 	response.status_code = 302
 	return response
 	
+	
+	
+@app.post("/patient")
+def show_data(patient: Patient, s_token: str = Depends(user)):
+	if s_token is None:
+		response.status_code = 401
+		return response
+	resp.status_code = 302
+	resp = {"name": "IMIE", "surname": "NAZWISKO"}
+	app.storage[app.counter] = patient
+	resp = RedirectResponse(url = '/patient/<id>')
+	app.counter += 1
+	return resp
+
+@app.get("/patient")
+def show_data(patient: Patient, s_token: str = Depends(user)):
+	if s_token is None:
+		response.status_code = 401
+		return response
+	resp.status_code = 302
+	return app.storage
+
+
+
+@app.get("/patient/{id}")
+def show_patient(pk: int,s_token: str = Depends(user)):
+	if s_token is None:
+		response.status_code = 401
+		return response
+	resp.status_code = 302
+	if pk in app.storage:
+		return app.storage.get(pk)
+	return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@app.delete("/patient/{id}")
+def show_patient(pk: int,s_token: str = Depends(user)):
+	if s_token is None:
+		response.status_code = 401
+		return response
+	resp.status_code = 302
+	if pk in app.storage:
+		delete app.storage.get(pk)
+	return Response(status_code=status.HTTP_204_NO_CONTENT)
