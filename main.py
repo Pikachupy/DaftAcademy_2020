@@ -105,5 +105,5 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 		return response
 	resp.status_code = 302
 	if pk in app.storage:
-		delete app.storage.get(pk)
+		app.storage.pop(id, None)
 	return Response(status_code=status.HTTP_204_NO_CONTENT)
