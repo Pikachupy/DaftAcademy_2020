@@ -17,7 +17,11 @@ app = FastAPI()
 
 
 @app.get('/welcome')
-def get_welcome():
+def get_welcome(response: Response, s_token: str = Depends(user)):
+	if s_token is None:
+		response.status_code = 401
+		return "You are not allowed to be here!"
+	response.status_code = 302
 	return {"message": "Hello World during the coronavirus pandemic!"}
 
 
