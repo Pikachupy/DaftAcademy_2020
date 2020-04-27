@@ -70,7 +70,7 @@ def show_data(response: Response, s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	response.status_code = 302
+	response.status_code = 200
 	response = {"name": "IMIE", "surname": "NAZWISKO"}
 	app.storage[app.counter] = patient
 	response = RedirectResponse(url = '/patient/<id>')
@@ -92,7 +92,7 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	response.status_code = 302
+	response.status_code = 204
 	if pk in app.storage:
 		return app.storage.get(pk)
 	return response
