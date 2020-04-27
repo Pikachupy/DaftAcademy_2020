@@ -17,7 +17,6 @@ async def shutdown():
 @app.get("/tracks")
 async def tracks_with_artist(page=0, per_page=10):
     app.db_connection.row_factory = sqlite3.Row
-    data = app.db_connection.execute('''
-     ('''SELECT * FROM Tracks ORDER BY TrackId LIMIT ''' + str(per_page) + ''' OFFSET ''' + str(page));
-     ''').fetchall()
+    PG = '''SELECT * FROM Tracks ORDER BY TrackId LIMIT 10 OFFSET 0'''
+    data = app.db_connection.execute(PG).fetchall()
     return data
