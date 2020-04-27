@@ -1,7 +1,6 @@
 import sqlite3
 from fastapi import FastAPI
-import mysql.connector
-from mysql.connector import Error
+
 
 app = FastAPI()
 
