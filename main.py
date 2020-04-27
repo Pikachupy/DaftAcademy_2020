@@ -14,19 +14,17 @@ async def startup():
 async def shutdown():
     app.db_connection.close()
 
-def getget():
-    page = 0
-    per_page = 10
-    pg = (per_page, page)
-    query = '''SELECT * FROM Tracks ORDER BY TrackId LIMIT %s OFFSET %s'''
-    return query,pg
 
-@app.get("/tracks")
-async def tracks_with_artist():
+    
+@app.get("/tracks/composers/")
+async def tracks_with_comp(composer_name):
     try:
         app.db_connection.row_factory = sqlite3.Row
-        query,pg = Depends(getget)
-        data = app.db_connection.execute(query,pg).fetchall()
+        query =''' SELECT name FROM tracks WHERE artist = composer_name '''
+        data = app.db_connection.execute(query).fetchall()
         return data
     except mysql.connector.Error as error:
         print("parameterized query failed {}".format(error))
+
+    
+    
