@@ -104,6 +104,9 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 		response.status_code = 401
 		return response
 	response.status_code = 302
+	if pk == 0:
+		response.status_code = 302
+		return response
 	if pk in app.storage:
 		app.storage.pop(id, None)
 	return response
