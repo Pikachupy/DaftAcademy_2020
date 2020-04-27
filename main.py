@@ -20,9 +20,8 @@ async def shutdown():
 async def tracks_with_artist():
     try:
         app.db_connection.row_factory = sqlite3.Row
-        query = '''SELECT * FROM Tracks ORDER BY TrackId LIMIT %s OFFSET %s'''
-        params = (per_page, page)
-        data = app.db_connection.execute(query, params).fetchall()
+        query = '''SELECT * FROM Tracks ORDER BY TrackId LIMIT 10 OFFSET 0'''
+        data = app.db_connection.execute(query).fetchall()
         return data
     except mysql.connector.Error as error:
         print("parameterized query failed {}".format(error))
