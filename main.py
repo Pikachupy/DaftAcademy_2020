@@ -83,7 +83,7 @@ def show_data(response: Response, s_token: str = Depends(user)):
 		response.status_code = 401
 		return response
 	response.status_code = 302
-	return app.storage
+	return response
 
 
 
@@ -95,7 +95,7 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 	response.status_code = 302
 	if pk in app.storage:
 		return app.storage.get(pk)
-	return Response(status_code=status.HTTP_204_NO_CONTENT)
+	return response
 
 
 @app.delete("/patient/{id}")
@@ -103,7 +103,7 @@ def show_patient(pk: int,s_token: str = Depends(user)):
 	if s_token is None:
 		response.status_code = 401
 		return response
-	resp.status_code = 302
+	response.status_code = 302
 	if pk in app.storage:
 		app.storage.pop(id, None)
-	return Response(status_code=status.HTTP_204_NO_CONTENT)
+	return response
