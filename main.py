@@ -16,15 +16,6 @@ from starlette.authentication import (
 app = FastAPI()
 
 
-@app.get('/welcome')
-def get_welcome(response: Response, s_token: str = Depends(user)):
-	if s_token is None:
-		response.status_code = 401
-		return "You are not allowed to be here!"
-	response.status_code = 302
-	return {"message": "Hello World during the coronavirus pandemic!"}
-
-
 @app.get('/')
 def get_welcome():
 	return {"message": "Hello!"}
@@ -43,6 +34,16 @@ def user(credentials: HTTPBasicCredentials = Depends(security)):
 		s_token = sha256(bytes(f"{credentials.username}{credentials.password}{app.secret_key}", encoding='utf8')).hexdigest()
 		return s_token, AuthCredentials(["authenticated"]), SimpleUser(credentials.username)
 
+
+@app.get('/welcome')
+def get_welcome(response: Response, s_token: str = Depends(user)):
+	if s_token is None:
+		response.status_code = 401
+		return "You are not allowed to be here!"
+	response.status_code = 302
+	return {"message": "Hello World during the coronavirus pandemic!"}
+	
+	
 	
 @app.post('/login')
 def login(response: Response,s_token = Depends(user)):
