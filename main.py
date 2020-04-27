@@ -43,7 +43,7 @@ def get_welcome(response: Response, s_token: str = Depends(user)):
 		return HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	response = HTMLResponse('<html><body><h1><div id="greeting">Hello, trudnY!</div></h1></body></html>')
 	response.status_code = 302
-	return {'<html><body><h1 id="greeting">Hello, trudnY!</h1></body></html>'}
+	return templates.TemplateResponse("welcome.html", {"request":request, "user" : app.tokens[s_token]})
 	
 
 
