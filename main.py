@@ -16,7 +16,7 @@ async def shutdown():
 
     
 @app.get("/tracks")
-async def getgtracks():
+async def getgtracks(respond: Respond):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('''SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0 ''').fetchall()
     return data
