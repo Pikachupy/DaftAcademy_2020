@@ -14,8 +14,20 @@ async def startup():
 async def shutdown():
     app.db_connection.close()
 
-
     
+@app.get("/tracks")
+async def getgtracks():
+    try:
+        app.db_connection.row_factory = sqlite3.Row
+        query =''' SELECT name FROM tracks LIMIT 10 OFFSET 0 ORDER BY TrackId'''
+        param=(composer_name,)
+        data = app.db_connection.execute(query).fetchall()
+        return data
+    except mysql.connector.Error as error:
+        print("parameterized query failed {}".format(error))  
+    
+
+'''   
 @app.get("/tracks/composers/")
 async def tracks_with_comp(composer_name):
     try:
@@ -26,6 +38,5 @@ async def tracks_with_comp(composer_name):
         return data
     except mysql.connector.Error as error:
         print("parameterized query failed {}".format(error))
-
-    
-    
+'''
+        
