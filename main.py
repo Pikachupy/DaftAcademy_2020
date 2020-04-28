@@ -1,3 +1,12 @@
+from fastapi import APIRouter
+
+router = APIRouter()
+
+
+@router.get("/")
+def read_items():
+    return [{"name": "Item Foo"}, {"name": "item Bar"}]
+'''
 import sqlite3
 from fastapi import FastAPI
 from fastapi import Depends, Cookie, HTTPException
@@ -16,13 +25,13 @@ async def shutdown():
 
     
 @app.get("/tracks")
-async def getgtracks(respond: Respond):
+async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
-    data = app.db_connection.execute('''SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0 ''').fetchall()
+    data = app.db_connection.execute(SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0 ).fetchall()
     return data
     
 
-'''   
+
 @app.get("/tracks/composers/")
 async def tracks_with_comp(composer_name):
     try:
