@@ -19,8 +19,7 @@ async def shutdown():
 async def getgtracks():
     try:
         app.db_connection.row_factory = sqlite3.Row
-        query =''' SELECT name FROM tracks LIMIT 10 OFFSET 0 ORDER BY TrackId'''
-        data = app.db_connection.execute(query).fetchall()
+        data = app.db_connection.execute(''' SELECT name FROM tracks LIMIT 10 OFFSET 0 ORDER BY TrackId''').fetchall()
         return data
     except mysql.connector.Error as error:
         print("parameterized query failed {}".format(error))  
