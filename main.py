@@ -28,7 +28,7 @@ async def getgtracks():
 async def tracks_with_comp():
     app.db_connection.row_factory = sqlite3.Row
     composer_name='Miles Davis'
-    tup=('Angus Young, Malcolm Young, Brian Johnson',)
+    tup=('Angus Young%',)
     data = app.db_connection.execute('SELECT * FROM tracks WHERE composer=?',tup).fetchall()
     return data
 
