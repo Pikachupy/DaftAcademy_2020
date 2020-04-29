@@ -31,8 +31,9 @@ async def tracks_with_comp(composer_name):
     tup=(composer_name,)
     data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
     if data==[]:
-         return {
-        "detail": {
+        sqlite3.Error(status_code=404):
+            return {
+            "detail": {
             "error": composer_name
            }
         }
