@@ -19,7 +19,7 @@ async def shutdown():
 @app.get("/tracks")
 async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
-    data = app.db_connection.execute('SELECT name FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0').fetchall()
+    data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0').fetchall()
     return data
     
 
@@ -30,7 +30,7 @@ async def tracks_with_comp(composer_name):
     composer_name='Miles Davis'
     composer_name+='%'
     tup=(composer_name,)
-    data = app.db_connection.execute('SELECT * FROM tracks WHERE composer LIKE ?',tup).fetchall()
+    data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ?',tup).fetchall()
     return data
 
 
