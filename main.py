@@ -29,7 +29,7 @@ async def tracks_with_comp():
     app.db_connection.row_factory = sqlite3.Row
     composer_name='Miles Davis'
     tup=composer_name
-    data = app.db_connection.execute('SELECT name FROM tracks WHERE composer=Angus Young% ORDER BY name').fetchall()
+    data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE %Angus Young% ORDER BY name').fetchall()
     return data
 
 
