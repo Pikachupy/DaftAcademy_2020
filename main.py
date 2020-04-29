@@ -27,7 +27,7 @@ async def getgtracks():
 @app.get("/tracks/composers/")
 async def tracks_with_comp(composer_name: str):
     app.db_connection.row_factory = sqlite3.Row
-    data = app.db_connection.execute('''SELECT name FROM tracks WHERE composer = @composer_name ORDER BY name''').fetchall()
+    data = app.db_connection.execute('SELECT name FROM tracks WHERE composer =? ORDER BY name',composer_name).fetchall()
     return data
 
 
