@@ -25,12 +25,11 @@ async def getgtracks():
 
 
 @app.get("/tracks/composers")
-async def tracks_with_comp():
+async def tracks_with_comp(composer_name):
     app.db_connection.row_factory = sqlite3.Row
     composer_name='Miles Davis'
-    t='Miles Davis'
-    t+='%'
-    tup=(t,)
+    composer_name+='%'
+    tup=(composer_name,)
     data = app.db_connection.execute('SELECT * FROM tracks WHERE composer LIKE ?',tup).fetchall()
     return data
 
