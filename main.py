@@ -24,7 +24,7 @@ async def getgtracks():
     
 
 
-@app.get("/tracks/composers/")
+@app.get("/tracks/composers")
 async def tracks_with_comp():
     app.db_connection.row_factory = sqlite3.Row
     composer_name='Miles Davis'
