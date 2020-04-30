@@ -62,11 +62,14 @@ async def addalbum(album: Album):
         status_code=404,
         detail="error",
         )
+    app.db_connection.close()
     try:  
+        app.db_connection.commit()
+        app.db_connection = sqlite3.connect('chinook.db')
         cursor = app.db_connection.execute(
             "INSERT INTO albums (title) VALUES (?)", (album.title, )
         )
-        app.db_connection.commit()
+
         new_album_id = cursor.lastrowid
         app.db_connection.row_factory = sqlite3.Row
         album = app.db_connection.execute(
