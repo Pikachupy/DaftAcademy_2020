@@ -76,11 +76,7 @@ async def addalbum(album: Album):
             status_code=201,
             detail="AlbumId"
             )
-    except:
-        raise HTTPException(
-        status_code=404,
-        detail="error2",
-        )
+
    
 
        
