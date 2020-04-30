@@ -40,7 +40,7 @@ async def tracks_with_comp(composer_name):
     data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
     if data ==[]:
         raise HTTPException(
-        status_code=status.http_404_not_found,
+        status_code=404,
         detail="error",
         )
     return data
