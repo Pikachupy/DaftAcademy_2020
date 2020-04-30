@@ -12,7 +12,12 @@ app = FastAPI()
 
 security = HTTPBasic()
 
+from pydantic import BaseModel
 
+
+class Album(BaseModel):
+    title: str
+    artist_id: int
 
 
 @app.on_event("startup")
@@ -45,7 +50,32 @@ async def tracks_with_comp(composer_name):
         )
     return data
 
-   
+
+@app.get("/albums/{album_id}")
+async def albumid(composer_name): 
+    
+
+@app.post("/albums")
+async def addalbum(album: Album): 
+    app.db_connection.row_factory = lambda cursor, x: x[0]
+    tup=(album.artist_id,)
+    data2 = app.db_connection.execute('SELECT album_title FROM albums WHERE artist_id LIKE ?',tup).fetchall()
+    if album.title in data2:
+        return {"message": "Hello World during the coronavirus pandemic!"}
+    
+    cursor = app.db_connection.execute(
+        "INSERT INTO albums (title) VALUES (?)", (album.title, )
+    )
+    app.db_connection.commit()
+    new_album_id = cursor.lastrowid
+    app.db_connection.row_factory = sqlite3.Row
+    album = app.db_connection.execute(
+        """SELECT albumid AS album_id, title AS album_title
+         FROM albums WHERE albumid = ?""",
+        (new_album_id, )).fetchone()
+
+    return album
+
      
    
 
