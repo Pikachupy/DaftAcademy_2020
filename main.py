@@ -34,12 +34,13 @@ async def tracks_with_comp(composer_name):
         data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
         return data
     else:
-        Response.statusText={
+        data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
+        data.append({
     "detail": {
         "error": str
     }
-}
-        return Response(status_code=404),Response.statusText
+})
+        return data,Response(status_code=404)
 
        
         
