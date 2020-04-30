@@ -4,6 +4,11 @@ from fastapi import FastAPI
 from fastapi import Depends, Cookie, HTTPException, Response
 from fastapi.templating import Jinja2Templates
 
+class DaftAPI(FastAPI):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.templates = Jinja2Templates(directory="templates")
+        
 app = FastAPI()
 
 
