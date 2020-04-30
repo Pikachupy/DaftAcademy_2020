@@ -3,8 +3,16 @@ import sqlite3
 from fastapi import FastAPI
 from fastapi import Depends, Cookie, HTTPException, Response
 
-        
+import secrets
+
+from fastapi import status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+
 app = FastAPI()
+
+security = HTTPBasic()
+
+
 
 
 @app.on_event("startup")
@@ -32,8 +40,8 @@ async def tracks_with_comp(composer_name):
     data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
     if data ==[]:
         raise HTTPException(
-        status_code=404,
-        detail={"error": str},
+        status_code=status.http_404_not_found,
+        detail="error",
         )
     return data
 
