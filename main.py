@@ -30,7 +30,6 @@ async def tracks_with_comp(composer_name):
     data2 = app.db_connection.execute('SELECT composer FROM tracks').fetchall()
     if composer_name in data2:       
         app.db_connection.row_factory = lambda cursor, x: x[0]
-        composer_name+='%'
         tup=(composer_name,)
         data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
         return data
