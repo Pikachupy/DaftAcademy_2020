@@ -74,12 +74,12 @@ async def addalbum(album: Album):
             (new_album_id, )).fetchall()
         raise HTTPException(
             status_code=201,
-            detail=str(album)
+            detail="AlbumId"
             )
     except:
         raise HTTPException(
         status_code=404,
-        detail="error",
+        detail="error2",
         )
    
 
