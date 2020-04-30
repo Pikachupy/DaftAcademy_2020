@@ -58,8 +58,11 @@ async def addalbum(album: Album):
     app.db_connection.row_factory = lambda cursor, x: x[0]
     data2 = app.db_connection.execute('SELECT artistid FROM albums').fetchall()
     if not (album.artist_id in data2):
-        return {"message": "Hello World during the coronavirus pandemic!"}
-    
+        raise HTTPException(
+        status_code=404,
+        detail="error",
+        )
+        
     cursor = app.db_connection.execute(
         "INSERT INTO albums (title) VALUES (?)", (album.title, )
     )
