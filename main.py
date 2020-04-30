@@ -56,9 +56,8 @@ async def tracks_with_comp(composer_name):
 @app.post("/albums")
 async def addalbum(album: Album): 
     app.db_connection.row_factory = lambda cursor, x: x[0]
-    tup=(album.artist_id,)
-    data2 = app.db_connection.execute('SELECT album_title FROM albums WHERE artist_id LIKE ?',tup).fetchall()
-    if album.title in data2:
+    data2 = app.db_connection.execute('SELECT artistid FROM albums').fetchall()
+    if not (album.artist_id in data2):
         return {"message": "Hello World during the coronavirus pandemic!"}
     
     cursor = app.db_connection.execute(
