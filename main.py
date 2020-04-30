@@ -48,19 +48,17 @@ async def tracks_with_comp(composer_name):
 
 @app.post("/albums")
 async def addalbum(album: Album): 
-
-    try:  
-        t=(album.title,)
-        cursor = app.db_connection.execute(
-            "INSERT INTO albums (title) VALUES (?)", t
+    t=(album.title,)
+    cursor = app.db_connection.execute(
+        "INSERT INTO albums (title) VALUES (?)", t
         )
-        app.db_connection.commit()
-        new_album_id = cursor.lastrowid
-        app.db_connection.row_factory = sqlite3.Row
-        album = app.db_connection.execute(
-            """SELECT title FROM albums WHERE albumid = ?""",
-            (new_album_id, )).fetchall()
-        raise HTTPException(
-            status_code=201,
-            detail="AlbumId"
-            )
+    app.db_connection.commit()
+    new_album_id = cursor.lastrowid
+    app.db_connection.row_factory = sqlite3.Row
+    album = app.db_connection.execute(
+        """SELECT title FROM albums WHERE albumid = ?""",
+        (new_album_id, )).fetchall()
+    raise HTTPException(
+        status_code=201,
+        detail="AlbumId",
+        )
