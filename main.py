@@ -26,16 +26,18 @@ async def getgtracks():
 
 
 @app.get("/tracks/composers/")
-async def tracks_with_comp(composer_name):       
-    app.db_connection.row_factory = lambda cursor, x: x[0]
-    tup=(composer_name,)
-    data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
-    if data ==[]:
+async def tracks_with_comp(composer_name): 
+    try:
+            app.db_connection.row_factory = lambda cursor, x: x[0]
+            tup=(composer_name,)
+            data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
+            return data
+    exception:
         raise HTTPException(
             status_code=404,
             detail={"error": str},
         )
-    return data
+   
      
    
 
