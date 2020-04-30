@@ -2,12 +2,7 @@
 import sqlite3
 from fastapi import FastAPI
 from fastapi import Depends, Cookie, HTTPException, Response
-from fastapi.templating import Jinja2Templates
 
-class DaftAPI(FastAPI):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.templates = Jinja2Templates(directory="templates")
         
 app = FastAPI()
 
@@ -35,7 +30,12 @@ async def tracks_with_comp(composer_name):
     app.db_connection.row_factory = lambda cursor, x: x[0]
     tup=(composer_name,)
     data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
-    return app.templates.TemplateResponse("welcome.html", {"request": "ygj", "user": "trudnY"})
+    if data ==[]:
+        raise HTTPException(
+            status_code=404,
+            detail={"error": str},
+        )
+    return data
      
    
 
