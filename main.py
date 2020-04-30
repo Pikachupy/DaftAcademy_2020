@@ -2,7 +2,7 @@
 import sqlite3
 from fastapi import FastAPI
 from fastapi import Depends, Cookie, HTTPException, Response
-om fastapi.templating import Jinja2Templates
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
