@@ -74,7 +74,10 @@ async def addalbum(album: Album):
          FROM albums WHERE albumid = ?""",
         (new_album_id, )).fetchone()
 
-    return album
+    raise HTTPException(
+        status_code=201,
+        detail=str(album),
+        )
 
      
    
