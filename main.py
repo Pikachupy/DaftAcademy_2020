@@ -1,7 +1,7 @@
 
 import sqlite3
 from fastapi import FastAPI
-from fastapi import Depends, Cookie, HTTPException
+from fastapi import Depends, Cookie, HTTPException, Response
 
 app = FastAPI()
 
