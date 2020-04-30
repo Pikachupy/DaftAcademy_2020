@@ -64,18 +64,14 @@ async def addalbum(album: Album):
         )
     app.db_connection.close()
     try:  
-        app.db_connection.commit()
-        app.db_connection = sqlite3.connect('chinook.db')
         cursor = app.db_connection.execute(
-            "INSERT INTO albums (title) VALUES (?)", (album.title, )
+            "INSERT INTO albums (title) VALUES (?)", (album.title,)
         )
-
         new_album_id = cursor.lastrowid
         app.db_connection.row_factory = sqlite3.Row
         album = app.db_connection.execute(
-            """SELECT albumid AS album_id, title AS album_title
-             FROM albums WHERE albumid = ?""",
-            (new_album_id, )).fetchone()
+            """SELECT title FROM albums WHERE albumid = ?""",
+            (new_album_id, )).fetchall()
         raise HTTPException(
             status_code=201
             )
