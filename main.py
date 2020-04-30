@@ -62,10 +62,10 @@ async def addalbum(album: Album):
         status_code=404,
         detail="error",
         )
-    app.db_connection.close()
     try:  
+        t=(album.title,)
         cursor = app.db_connection.execute(
-            "INSERT INTO albums (title) VALUES (?)", (album.title,)
+            "INSERT INTO albums (title) VALUES (?)", t
         )
         new_album_id = cursor.lastrowid
         app.db_connection.row_factory = sqlite3.Row
