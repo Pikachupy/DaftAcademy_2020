@@ -62,24 +62,26 @@ async def addalbum(album: Album):
         status_code=404,
         detail="error",
         )
-        
-    cursor = app.db_connection.execute(
-        "INSERT INTO albums (title) VALUES (?)", (album.title, )
-    )
-    app.db_connection.commit()
-    new_album_id = cursor.lastrowid
-    app.db_connection.row_factory = sqlite3.Row
-    album = app.db_connection.execute(
-        """SELECT albumid AS album_id, title AS album_title
-         FROM albums WHERE albumid = ?""",
-        (new_album_id, )).fetchone()
-
-    raise HTTPException(
-        status_code=201,
-        detail=str(album),
+    try:  
+        cursor = app.db_connection.execute(
+            "INSERT INTO albums (title) VALUES (?)", (album.title, )
         )
-
-     
+        app.db_connection.commit()
+        new_album_id = cursor.lastrowid
+        app.db_connection.row_factory = sqlite3.Row
+        album = app.db_connection.execute(
+            """SELECT albumid AS album_id, title AS album_title
+             FROM albums WHERE albumid = ?""",
+            (new_album_id, )).fetchone()
+        raise HTTPException(
+            status_code=201,
+            detail=str(album),
+            )
+    except:
+        raise HTTPException(
+        status_code=404,
+        detail="error",
+        )
    
 
        
