@@ -51,9 +51,7 @@ async def tracks_with_comp(composer_name):
     return data
 
 
-@app.get("/albums/{album_id}")
-async def albumid(composer_name): 
-    
+
 
 @app.post("/albums")
 async def addalbum(album: Album): 
