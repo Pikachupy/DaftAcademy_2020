@@ -72,18 +72,7 @@ async def addalbum(album: Album):
             detail="AlbumId"
             )
 
-   '''
-       app.db_connection.row_factory = lambda cursor1, x: x[0]
-    data2 = app.db_connection.execute('SELECT artistid FROM albums').fetchall()
-    if not (album.artist_id in data2):
-        raise HTTPException(
-        status_code=404,
-        detail="error",
-        )
-        '''
 
-       
-        
 
 
         
