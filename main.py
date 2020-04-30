@@ -1,10 +1,7 @@
-
 import sqlite3
 from fastapi import FastAPI
 from fastapi import Depends, Cookie, HTTPException, Response
-
 import secrets
-
 from fastapi import status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
@@ -13,7 +10,6 @@ app = FastAPI()
 security = HTTPBasic()
 
 from pydantic import BaseModel
-
 
 class Album(BaseModel):
     title: str
@@ -37,7 +33,6 @@ async def getgtracks():
     return data
     
 
-
 @app.get("/tracks/composers/")
 async def tracks_with_comp(composer_name): 
     app.db_connection.row_factory = lambda cursor, x: x[0]
@@ -49,8 +44,6 @@ async def tracks_with_comp(composer_name):
         detail="error",
         )
     return data
-
-
 
 
 @app.post("/albums")
@@ -71,8 +64,3 @@ async def addalbum(album: Album):
             status_code=201,
             detail="AlbumId"
             )
-
-
-
-
-        
