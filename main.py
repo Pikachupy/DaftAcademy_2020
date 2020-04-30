@@ -73,8 +73,8 @@ async def addalbum(album: Album):
             """SELECT title FROM albums WHERE albumid = ?""",
             (new_album_id, )).fetchall()
         raise HTTPException(
-            status_code=201
-            detail="AlbumId"
+            status_code=201,
+            detail=str(album)
             )
     except:
         raise HTTPException(
