@@ -67,7 +67,7 @@ async def addalbum(album: Album):
 
 @app.get("/albums/{album_id}/")
 async def albid(album_id: int, album:Album):
-    cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
+    #cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
     return album
 '''
     app.db_connection.commit()
