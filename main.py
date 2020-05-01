@@ -70,5 +70,5 @@ async def addalbum(album: Album):
 async def albid(album_id: int):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute(f'SELECT albumid,title,artistid FROM albums WHERE albumid={album_id}').fetchone()
-    item={"AlbumId": {album_id}, "Title": data["Title"], "ArtistId": album.artist_id}
+    item={"AlbumId": {album_id}, "Title": data["Title"], "ArtistId": data["ArtistId"]}
     return JSONResponse(status_code=status.HTTP_200_OK, content=item)
