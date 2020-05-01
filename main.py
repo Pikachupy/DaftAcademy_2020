@@ -63,11 +63,10 @@ async def addalbum(album: Album):
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
     item={"AlbumId": new_album_id, "Title": album.title, "ArtistId": album.artist_id}
-    #return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
-    response = RedirectResponse(url=f"/albums/{new_album_id}")
-    return response
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
 
-@app.get("/albums/{album_id}")
+
+@app.put("/albums/{album_id}")
 async def albid(album_id: int, album:Album):
     #cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
     return album_id
