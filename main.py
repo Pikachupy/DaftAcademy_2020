@@ -62,10 +62,9 @@ async def addalbum(album: Album):
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
     album = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(new_album_id, )).fetchall()
-    raise HTTPException(
-        status_code=201,
-        return album
-        )
+    response=album
+    response(status_code=201)
+    return response
 
 @app.get("/albums/{album_id}/")
 async def albid(album_id: int, album:Album):
