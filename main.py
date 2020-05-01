@@ -77,6 +77,6 @@ async def albid(album_id: int, album:Album):
         """SELECT albumid AS album_id, title AS album_title
          FROM albums WHERE albumid = ?""",
         (album_id, )).fetchone()
-
-    return album
+    item2=album
+    return JSONResponse(status_code=status.HTTP_200_CREATED, content=item)
     
