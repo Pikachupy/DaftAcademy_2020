@@ -66,11 +66,9 @@ async def addalbum(album: Album):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
 
 
-@app.put("/albums/{album_id}")
+@app.get("/albums/{album_id}")
 async def albid(album_id: int, album:Album):
-    cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
-    app.db_connection.commit()
-    app.db_connection.row_factory = sqlite3.Row
-    item2 = app.db_connection.execute("SELECT title FROM albums WHERE albumid = ?",(album_id, )).fetchone()
-    return JSONResponse(status_code=200, content=item2)
+    app.db_connection.row_factory = lambda cursor, x: x[0]
+    data = app.db_connection.execute('SELECT * FROM albums WHERE albumid=?',(album_id,).fetchall()
+    return JSONResponse(status_code=200, content=data)
 
