@@ -64,7 +64,7 @@ async def addalbum(album: Album):
     album = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(new_album_id, )).fetchall()
     raise HTTPException(
         status_code=201,
-        AlbumId=new_album_id
+        return album
         )
 
 @app.get("/albums/{album_id}/")
