@@ -62,8 +62,7 @@ async def addalbum(album: Album):
     app.db_connection.commit()
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
-    album = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(new_album_id, )).fetchall()
-    item={"AlbumId": new_album_id}
+    item={"AlbumId": new_album_id, "Title": album.title, "ArtistId": album.artistid}
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
 
 @app.get("/albums/{album_id}/")
