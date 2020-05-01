@@ -31,9 +31,12 @@ async def shutdown():
     
 #zadanie_1: xxx
 @app.get("/tracks")
-async def getgtracks(customer: Customer):
+async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
-    data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0').fetchall()
+    try:
+        data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT ? OFFSET ?',(per_page,page)).fetchall()
+    except:
+        data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0').fetchall()                                 
     return data
     
     
