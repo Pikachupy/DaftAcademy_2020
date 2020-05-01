@@ -74,9 +74,9 @@ async def albid(album_id: int, album:Album):
 
     app.db_connection.row_factory = sqlite3.Row
     album = app.db_connection.execute(
-        """SELECT albumid AS album_id, title AS album_title
+        """SELECT albumid,title
          FROM albums WHERE albumid = ?""",
         (album_id, )).fetchone()
     item2=album
-    return JSONResponse(status_code=status.HTTP_200_CREATED, content=item)
+    return JSONResponse(status_code=200, content=item2)
     
