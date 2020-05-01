@@ -62,7 +62,7 @@ async def addalbum(album: Album):
     app.db_connection.commit()
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
-    item={"AlbumId": new_album_id, "Title": album.title, "ArtistId": album.artistid}
+    item={"AlbumId": new_album_id, "Title": album.title, "ArtistId": album.artist_id}
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
 
 @app.get("/albums/{album_id}/")
