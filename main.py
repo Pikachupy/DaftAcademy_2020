@@ -68,7 +68,7 @@ async def addalbum(album: Album):
 @app.get("/albums/{album_id}/")
 async def albid(album_id: int, album:Album):
     #cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
-    return album
+    return album_id
 '''
     app.db_connection.commit()
     app.db_connection.row_factory = sqlite3.Row
