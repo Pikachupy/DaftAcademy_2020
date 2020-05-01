@@ -28,14 +28,16 @@ async def startup():
 async def shutdown():
     app.db_connection.close()
 
-  
+    
+#zadanie_1: xxx
 @app.get("/tracks")
-async def getgtracks():
+async def getgtracks(customer: Customer):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0').fetchall()
     return data
     
-
+    
+#zadanie_2:
 @app.get("/tracks/composers/")
 async def tracks_with_comp(composer_name): 
     app.db_connection.row_factory = lambda cursor, x: x[0]
@@ -49,6 +51,7 @@ async def tracks_with_comp(composer_name):
     return data
 
 
+#zadanie_3:
 @app.post("/albums")
 async def addalbum(album: Album):
     app.db_connection.row_factory = lambda cursor, x: x[0]
@@ -71,3 +74,22 @@ async def albid(album_id: int):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute(f'SELECT albumid,title,artistid FROM albums WHERE albumid={album_id}').fetchone()
     return data
+    
+#zadanie_4:
+class Customer(BaseModel):
+    company: str
+    address: str
+    city: str
+    state: str
+    country: str
+    postalcode: str
+    fax: str
+'''    
+@app.put("/customers/{customer_id}")
+async def cust(customer: Customer):
+'''
+
+
+
+
+
