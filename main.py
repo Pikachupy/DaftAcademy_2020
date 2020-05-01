@@ -49,10 +49,36 @@ async def tracks_with_comp(composer_name):
 
 
 @app.post("/albums")
-async def addalbum(album: Album): 
+async def addalbum(album: Album):
+    app.db_connection.row_factory = lambda cursor, x: x[0]
+    data2 = app.db_connection.execute('SELECT artistid FROM albums').fetchall()
+    if not (album.artistid in data2):
+        raise HTTPException(
+        status_code=404,
+        detail="error",
+        )
     cursor = app.db_connection.execute('INSERT INTO albums (title,artistid) VALUES (?,?)',(album.title,album.artist_id))
     app.db_connection.commit()
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
     album = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(new_album_id, )).fetchall()
-    return Response(status_code=201)
+     raise HTTPException(
+        status_code=201,
+        detail="succ",
+        )
+
+@app.get("/albums/{album_id/")
+async def albid(album_id: int, album:Album):
+    cursor = app.db_connection.execute(
+        "UPDATE albums SET title = ? WHERE albumid = ?", (album.title, album_id)
+    )
+    app.db_connection.commit()
+
+    app.db_connection.row_factory = sqlite3.Row
+    album = app.db_connection.execute(
+        """SELECT albumid AS album_id, title AS album_title
+         FROM albums WHERE albumid = ?""",
+        (album_id, )).fetchone()
+
+    return album
+    
