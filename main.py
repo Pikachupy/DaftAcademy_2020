@@ -64,13 +64,13 @@ async def addalbum(album: Album):
     app.db_connection.row_factory = sqlite3.Row
     item={"AlbumId": new_album_id, "Title": album.title, "ArtistId": album.artist_id}
     response = RedirectResponse(url=f"/albums/{album_id}/")
-    return JSONResponse(status_code=status.HTTP_201_CREATED, content=item), reponse
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
 
 @app.get("/albums/{album_id}/")
 async def albid(album_id: int, album:Album):
     cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
     app.db_connection.commit()
     app.db_connection.row_factory = sqlite3.Row
-    item2 = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(album_id, )).fetchall()
-    return album.title
+    item2 = app.db_connection.execute("""SELECT title FROM albums WHERE artistid = ?""",(album.artist_id, )).fetchall()
+    return item2
     
