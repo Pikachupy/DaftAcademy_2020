@@ -64,10 +64,10 @@ async def addalbum(album: Album):
     album = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(new_album_id, )).fetchall()
     raise HTTPException(
         status_code=201,
-        detail="succ",
+        detail=album,
         )
 
-@app.get("/albums/{album_id/")
+@app.get("/albums/{album_id}/")
 async def albid(album_id: int, album:Album):
     cursor = app.db_connection.execute(
         "UPDATE albums SET title = ? WHERE albumid = ?", (album.title, album_id)
