@@ -67,9 +67,9 @@ async def addalbum(album: Album):
 
 
 @app.get("/albums/{album_id}")
-async def albid(album_id: int, album:Album):
+async def albid(album_id: int):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT * FROM albums WHERE albumid={album_id}').fetchall()
-    item={"AlbumId": {album_id}, "Title": album.title, "ArtistId": album.artist_id}
-    return JSONResponse(status_code=HTTP_200_OK, content=item)
+    #item={"AlbumId": {album_id}, "Title": album.title, "ArtistId": album.artist_id}
+    return JSONResponse(status_code=HTTP_200_OK)
 
