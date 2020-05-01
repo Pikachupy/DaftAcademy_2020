@@ -71,6 +71,6 @@ async def albid(album_id: int, album:Album):
     cursor = app.db_connection.execute("UPDATE albums SET title = ?", (album.title))
     app.db_connection.commit()
     app.db_connection.row_factory = sqlite3.Row
-    item2 = app.db_connection.execute("SELECT title FROM albums WHERE artistid = ?",(album_id, )).fetchone()
+    item2 = app.db_connection.execute("SELECT title FROM albums WHERE albumid = ?",(album_id, )).fetchone()
     return JSONResponse(status_code=200, content=item2)
 
