@@ -50,8 +50,8 @@ async def tracks_with_comp(composer_name):
 
 @app.post("/albums")
 async def addalbum(album: Album): 
-    t=(album.title,)
-    cursor = app.db_connection.execute('INSERT INTO albums (title) VALUES (?)', t)
+    t=(album.title,album.artist_id)
+    cursor = app.db_connection.execute('INSERT INTO albums (title),albums (artist_id) VALUES (?)', t)
     app.db_connection.commit()
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
