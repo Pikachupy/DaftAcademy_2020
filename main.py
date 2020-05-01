@@ -70,5 +70,6 @@ async def addalbum(album: Album):
 async def albid(album_id: int, album:Album):
     app.db_connection.row_factory = lambda cursor, x: x[0]
     data = app.db_connection.execute('SELECT * FROM albums WHERE albumid=?',(album_id,).fetchall()
-    return JSONResponse(status_code=200, content=data)
+    item={"AlbumId": album_id, "Title": album.title, "ArtistId": album.artist_id}
+    return JSONResponse(status_code=HTTP_200_OK, content=item)
 
