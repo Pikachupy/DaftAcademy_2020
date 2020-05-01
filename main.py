@@ -52,7 +52,7 @@ async def tracks_with_comp(composer_name):
 async def addalbum(album: Album):
     app.db_connection.row_factory = lambda cursor, x: x[0]
     data2 = app.db_connection.execute('SELECT artistid FROM albums').fetchall()
-    if not (album.artistid in data2):
+    if not (album.artist_id in data2):
         raise HTTPException(
         status_code=404,
         detail="error",
