@@ -7,6 +7,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 from fastapi.responses import JSONResponse
+from typing import Set
 
 app = FastAPI()
 
@@ -30,13 +31,15 @@ async def shutdown():
 
     
 #zadanie_1: xxx
-@app.get("/tracks/?per_page&page)")
+class Item(BaseModel):
+    per_page: int = 10
+    page: int = 0
+
+        
+@app.get("/tracks/", item:Item)
 async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
-    try:
-        data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT ? OFFSET ?',(per_page,page)).fetchall()
-    except:
-        data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT 10 OFFSET 0').fetchall()                                 
+    data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT ? OFFSET ?',(item.per_page,item.page)).fetchall()                  
     return data
     
     
