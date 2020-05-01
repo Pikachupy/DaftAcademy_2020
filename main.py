@@ -4,6 +4,8 @@ from fastapi import Depends, Cookie, HTTPException, Response
 import secrets
 from fastapi import status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from pydantic import BaseModel
+from starlette.responses import RedirectResponse
 
 app = FastAPI()
 
@@ -58,4 +60,4 @@ async def addalbum(album: Album):
     album = app.db_connection.execute(
         """SELECT title FROM albums WHERE albumid = ?""",
         (new_album_id, )).fetchall()
-    return album
+    return Response(status_code=201)
