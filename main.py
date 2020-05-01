@@ -6,6 +6,7 @@ from fastapi import status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -62,9 +63,8 @@ async def addalbum(album: Album):
     new_album_id = cursor.lastrowid
     app.db_connection.row_factory = sqlite3.Row
     album = app.db_connection.execute("""SELECT title FROM albums WHERE albumid = ?""",(new_album_id, )).fetchall()
-    response=album
-    response(status_code=201)
-    return response
+    item={"AlbumId": new_album_id}
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=item)
 
 @app.get("/albums/{album_id}/")
 async def albid(album_id: int, album:Album):
