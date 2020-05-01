@@ -30,7 +30,7 @@ async def shutdown():
 
     
 #zadanie_1: xxx
-@app.get("/tracks")
+@app.get("/tracks/?")
 async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
     try:
