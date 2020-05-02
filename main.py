@@ -115,8 +115,13 @@ class Tab:
 async def sale(category): 
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
-
-    return data
+    t=Tab()
+    T=[]
+    for i in data:
+        t.cid = data[customerid]
+        t.tot = data[total]
+        T.append(t)
+    return T
     
     
     
