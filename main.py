@@ -153,5 +153,5 @@ async def cust(customer_id: int, customer: Customer):
 @app.get("/sales")
 async def sale(category): 
     app.db_connection.row_factory = sqlite3.Row
-    data = app.db_connection.execute('SELECT customerid,total FROM tracks WHERE composer LIKE ? ORDER BY name').fetchall()
+    data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
     return data
