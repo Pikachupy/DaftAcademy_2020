@@ -113,16 +113,10 @@ class Tab:
 #zadanie_5:
 @app.get("/sales")
 async def sale(category): 
-    app.db_connection.row_factory = lambda cursor, x: x[0]
-    data = app.db_connection.execute('SELECT customerid FROM invoices').fetchall()
-    data2 = app.db_connection.execute('SELECT total FROM invoices').fetchall()
-    T=[]
-    t=Tab()
-    for i in range(0,len(data)):
-        t.cid = data[i]
-        t.tot = data2[i]
-        T.append(t)
-    return T
+    app.db_connection.row_factory = sqlite3.Row
+    data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
+
+    return data
     
     
     
