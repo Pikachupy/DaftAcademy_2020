@@ -152,12 +152,7 @@ async def cust(customer_id: int, customer: Customer):
 #zadanie_5:
 @app.get("/sales")
 async def sale(category): 
-    app.db_connection.row_factory = lambda cursor, x: x[0]
-    tup=(composer_name,)
-    data = app.db_connection.execute('SELECT name FROM tracks WHERE composer LIKE ? ORDER BY name',tup).fetchall()
-    if data ==[]:
-        raise HTTPException(
-        status_code=404,
-        detail="error",
-        )
+    app.db_connection.row_factory = sqlite3.Row
+    data = app.db_connection.execute('SELECT customerid,total FROM tracks WHERE composer LIKE ? ORDER BY name').fetchall()
     return data
+
