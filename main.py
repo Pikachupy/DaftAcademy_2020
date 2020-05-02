@@ -102,5 +102,6 @@ async def cust(customer_id: int, customer: Customer):
     app.db_connection.row_factory = lambda cursor, x: x[0]
     data2 = app.db_connection.execute('SELECT customerid FROM customers').fetchall()
     if not (customer_id in data2):
-        raise HTTPException(status_code=404,detail="error",)
+        item={"detail": "error"}
+        return JSONResponse(status_code=404, content=item)
 
