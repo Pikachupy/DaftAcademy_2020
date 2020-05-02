@@ -36,7 +36,7 @@ class Item(BaseModel):
     page: int = 0
 
         
-@app.get("/tracks/", item)
+@app.get("/tracks/?{cos}")
 async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT ? OFFSET ?',(item,item)).fetchall()                  
