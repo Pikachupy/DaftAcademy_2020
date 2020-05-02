@@ -106,12 +106,21 @@ async def cust(customer_id: int, customer: Customer):
         item={"detail": {"error":str(customer_id)} }
         return JSONResponse(status_code=404, content=item)
 
-    
+class Tab:
+    cid: int
+    tot: int
+        
 #zadanie_5:
 @app.get("/sales")
-async def sale(category): 
+async def sale(category, t: Tab): 
     app.db_connection.row_factory = lambda cursor, x: x[0]
-    data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
+    data = app.db_connection.execute('SELECT customerid FROM invoices').fetchall()
+    data2 = app.db_connection.execute('SELECT total FROM invoices').fetchall()
+    T=[]
+    for i in range(0,len(data)):
+        t.cid = data[i]
+        t.tot = data2[i]
+        T.append(t)
     return data
     
     
