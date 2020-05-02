@@ -122,7 +122,7 @@ async def sale(category):
         t.cid = data[i]
         t.tot = data2[i]
         T.append(t)
-    return data
+    return T
     
     
     
