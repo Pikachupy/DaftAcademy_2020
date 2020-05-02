@@ -101,6 +101,4 @@ class Customer(BaseModel):
 async def cust(customer_id: int, customer: Customer):
     app.db_connection.row_factory = sqlite3.Row
     data2 = app.db_connection.execute('SELECT customerid FROM customers').fetchall()
-    if not (str(customer_id) in data2):
-        item="error"
-        return JSONResponse(status_code=404, content=item)
+    return data2
