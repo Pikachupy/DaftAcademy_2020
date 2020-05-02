@@ -90,10 +90,19 @@ class Customer(BaseModel):
     country: str
     postalcode: str
     fax: str
-'''    
+  
 @app.put("/customers/{customer_id}")
-async def cust(customer: Customer):
-'''
+async def cust(customer_id: int, customer: Customer):
+    app.db_connection.row_factory = lambda cursor, x: x[0]
+    data2 = app.db_connection.execute('SELECT customerid FROM clients').fetchall()
+    if not (customer_id in data2):
+        raise HTTPException(
+        status_code=404,
+        detail="error",
+        )
+        
+    
+
 
 
 
