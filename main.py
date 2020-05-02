@@ -155,4 +155,3 @@ async def sale(category):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT customerid,total FROM tracks WHERE composer LIKE ? ORDER BY name').fetchall()
     return data
-
