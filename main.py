@@ -115,10 +115,8 @@ class Tab:
 async def sale(category): 
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
-    try:
-        return data[0][0]
-    except:
-        return data[0][customerid]
+    return data[0][0]
+
     
     
     
