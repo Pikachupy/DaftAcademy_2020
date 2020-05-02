@@ -9,7 +9,7 @@ from starlette.responses import RedirectResponse
 from fastapi.responses import JSONResponse
 from typing import Set
 
-
+import jose
 import secrets
 from typing import Dict, Optional
 
