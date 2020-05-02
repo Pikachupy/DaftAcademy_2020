@@ -103,5 +103,4 @@ async def cust(customer_id: int, customer: Customer):
     data2 = app.db_connection.execute('SELECT customerid FROM customers').fetchall()
     if (customer_id in data2) == 'False':
         return Response(status_code=404)
-    if not (customer_id in data2):
-        return Response(status_code=404)
+
