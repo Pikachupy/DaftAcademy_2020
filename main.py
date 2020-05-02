@@ -83,18 +83,24 @@ async def albid(album_id: int):
     
 #zadanie_4:
 class Customer(BaseModel):
-    company: str
-    address: str
-    city: str
-    state: str
-    country: str
-    postalcode: str
-    fax: str
+    CustomerId: int
+    FirstName: str
+    LastName: str
+    Company: str
+    Address: str
+    City: str
+    State: str
+    Country: str
+    PostalCode: str
+    Phone: str
+    Fax: str
+    Email: str
+    SupportRepId: int
   
 @app.put("/customers/{customer_id}")
 async def cust(customer_id: int, customer: Customer):
     app.db_connection.row_factory = lambda cursor, x: x[0]
-    data2 = app.db_connection.execute('SELECT customerid FROM clients').fetchall()
+    data2 = app.db_connection.execute('SELECT customerid FROM customers').fetchall()
     if not (customer_id in data2):
         raise HTTPException(
         status_code=404,
