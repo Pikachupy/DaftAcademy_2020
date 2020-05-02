@@ -118,8 +118,8 @@ async def sale(category):
     t=Tab()
     T=[]
     for i in data:
-        t.cid = i[customerid]
-        t.tot = i[total]
+        t.cid = i.customerid
+        t.tot = i.total
         T.append(t)
     return T
     
