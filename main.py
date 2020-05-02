@@ -97,7 +97,7 @@ class Customer(BaseModel):
     Email: str
     SupportRepId: int
   
-@app.put("/customers/{customer_id}")
+@app.put("/customers/{customer_id}/")
 async def cust(customer_id: int, customer: Customer):
     app.db_connection.row_factory = lambda cursor, x: x[0]
     data2 = app.db_connection.execute('SELECT customerid FROM customers').fetchall()
