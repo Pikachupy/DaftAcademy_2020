@@ -152,6 +152,8 @@ async def cust(customer_id: int, customer: Customer):
 #zadanie_5:
 @app.get("/sales")
 async def sale(category): 
-    app.db_connection.row_factory = sqlite3.Row
+    app.db_connection.row_factory = lambda cursor, x: x[0]
     data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
-    return data
+    
+    
+    
