@@ -121,9 +121,9 @@ async def sale(category):
         t.append(data[i][0])
         t.append(data[i][1])
         licz=0
-        for i in T:
-            if i[0]==t[0]:
-                i[1]+=t[1]
+        for j in T:
+            if j[0]==t[0]:
+                j[1]+=t[1]
                 licz+=1
         if licz==0:
             T.append(t)
