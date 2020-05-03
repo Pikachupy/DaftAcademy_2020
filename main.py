@@ -109,7 +109,8 @@ async def cust(customer_id: int, customer: Customer):
 class Tab:
     cid: int
     tot: int
-        
+
+   
 #zadanie_5:
 @app.get("/sales")
 async def sale(category): 
@@ -117,9 +118,10 @@ async def sale(category):
     data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
     T=[]
     t=Tab()
-    for i in data:
-        t.cid=i[0]
-        t.tot=i[1]
+    i=0
+    while i<len(data):
+        t.cid=data[i][0]
+        t.tot=data[i][1]
         T.append(t)
     return T
 
