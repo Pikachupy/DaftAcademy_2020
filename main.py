@@ -124,6 +124,7 @@ class GenresStat(BaseModel):
 async def db_task_5(category: str=None):
 	if category == "customers":
 		cursor = app.db_connection.cursor()
+		app.db_connection.row_factory = sqlite3.Row
 		data = cursor.execute("""
 			SELECT CustomerId, Email, Phone, SUM(Total) as Sum FROM(
 			SELECT * FROM invoices  
@@ -141,6 +142,7 @@ async def db_task_5(category: str=None):
 		return content
 	elif category == "genres":
 		cursor = app.db_connection.cursor()
+		app.db_connection.row_factory = sqlite3.Row
 		data = cursor.execute("""
 			SELECT Name, COUNT(GenreId) AS SUM FROM (
 			SELECT * FROM genres 
@@ -156,7 +158,7 @@ async def db_task_5(category: str=None):
 				))
 		return content
 	else:
-		item="error"
+		item={"detail": {"error":str(category)} }
 		return JSONResponse(status_code=404,content=item)
     
 '''
