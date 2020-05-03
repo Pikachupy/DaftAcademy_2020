@@ -124,9 +124,8 @@ class GenresStat(BaseModel):
 async def db_task_5(category: str=None):
 	if category == "customers":
 		cursor = app.db_connection.cursor()
-		app.db_connection.row_factory = sqlite3.Row
 		data = cursor.execute("""
-			SELECT CustomerId, Email, Phone, SUM(Total) as Sum FROM(
+			SELECT CustomerId, Email, Phone, ROUND(SUM(Total),2) as Sum FROM(
 			SELECT * FROM invoices  
 			JOIN customers ON customers.CustomerId = invoices.CustomerId
 			)GROUP BY CustomerId ORDER BY Sum DESC, CustomerId ASC
