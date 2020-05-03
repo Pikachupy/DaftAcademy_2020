@@ -184,7 +184,7 @@ async def db_task_4(customer_id: int,data: dict):
 	cursor = app.db_connection.cursor()
 	is_customer_exist = cursor.execute("SELECT CustomerId FROM customers WHERE CustomerId=:id",{"id": customer_id}).fetchall()
 	if len(is_customer_exist) == 0:
-		item='error'
+		item={"detail": {"error":str(customer_id)} }
 		return JSONResponse(status_code=404,content=item)
 	for i in data:
 		cursor.execute(f"UPDATE customers SET {i} = :value WHERE CustomerId=:id",
