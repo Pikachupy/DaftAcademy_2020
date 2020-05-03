@@ -110,7 +110,18 @@ class Tab:
 
    
 #zadanie_5:
+class CustomerStat(BaseModel):
+	CustomerId: int = None
+	Email: str = None
+	Phone: str = None
+	Sum: float = None
 
+class GenresStat(BaseModel):
+	Name: str = None
+	Sum: int = None
+
+class Category404(BaseModel):
+	detail: Error = Error(error="No such Category")
 
 @app.get("/sales")
 async def db_task_5(category: str=None):
