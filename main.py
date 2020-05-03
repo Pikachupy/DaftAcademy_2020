@@ -115,11 +115,11 @@ async def sale(category):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT customerid,total FROM invoices').fetchall()
     T=[]
-    t=Tab()
+    t=[]
     i=0
     while i<len(data):
-        t.cid=data[i][0]
-        t.tot=data[i][1]
+        t.append(data[i][0])
+        t.append(data[i][1])
         T.append(t)
         i+=1
     return T
