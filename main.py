@@ -124,7 +124,7 @@ async def sale(category):
         t[1]=round(t[1],2)
         for j in T:
             if j[0]==t[0]:
-                float(j[1])+=float(t[1])
+                j[1]+=t[1]
                 j[1]=round(j[1],2)
                 licz+=1
         if licz==0:
