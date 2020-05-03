@@ -117,7 +117,11 @@ async def sale(category):
     T=[]
     t=[]
     i=0
-    while i<len(data):
+    
+    return data
+
+'''
+while i<len(data):
         t.append(data[i][0])
         t.append(float(data[i][1]))
         licz=0
@@ -127,8 +131,9 @@ async def sale(category):
                 j[1]+=t[1]
                 j[1]=round(j[1],2)
                 licz+=1
+              
         if licz==0:
             T.append(t)
         t=[]
         i+=1
-    return T
+'''
