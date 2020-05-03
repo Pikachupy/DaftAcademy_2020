@@ -110,6 +110,47 @@ class Tab:
 
    
 #zadanie_5:
+
+
+@app.get("/sales")
+async def db_task_5(category: str=None):
+	if category == "customers":
+		cursor = app.db_connection.cursor()
+		data = cursor.execute("""
+			SELECT CustomerId, Email, Phone, SUM(Total) as Sum FROM(
+			SELECT * FROM invoices  
+			JOIN customers ON customers.CustomerId = invoices.CustomerId
+			)GROUP BY CustomerId ORDER BY Sum DESC, CustomerId ASC
+			""").fetchall()
+		content = []
+		for i in data:
+			content.append(CustomerStat(
+				CustomerId = i[0],
+				Email = i[1],
+				Phone = i[2],
+				Sum = round(i[3],2)
+				))
+		return content
+	elif category == "genres":
+		cursor = app.db_connection.cursor()
+		data = cursor.execute("""
+			SELECT Name, COUNT(GenreId) AS SUM FROM (
+			SELECT * FROM genres 
+			JOIN tracks ON tracks.GenreId = genres.GenreId
+			JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId
+			)GROUP BY GenreId ORDER BY Sum DESC, Name ASC
+			""").fetchall()
+		content = []
+		for i in data:
+			content.append(GenresStat(
+				Name = i[0],
+				Sum = i[1],
+				))
+		return content
+	else:
+		return JSONResponse(status_code=404,content=jsonable_encoder(Category404()))
+    
+'''
 @app.get("/sales")
 async def sale(category): 
     app.db_connection.row_factory = sqlite3.Row
@@ -117,11 +158,7 @@ async def sale(category):
     T=[]
     t=[]
     i=0
-    
-    return data
-
-'''
-while i<len(data):
+    while i<len(data):
         t.append(data[i][0])
         t.append(float(data[i][1]))
         licz=0
@@ -136,4 +173,5 @@ while i<len(data):
             T.append(t)
         t=[]
         i+=1
+    return T
 '''
