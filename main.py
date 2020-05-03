@@ -119,12 +119,13 @@ async def sale(category):
     i=0
     while i<len(data):
         t.append(data[i][0])
-        t.append(data[i][1])
+        t.append(float(data[i][1]))
         licz=0
+        t[1]=round(t[1],2)
         for j in T:
             if j[0]==t[0]:
-                j[1]+=t[1]
-                t[1]=round(t[1],2)
+                float(j[1])+=float(t[1])
+                j[1]=round(j[1],2)
                 licz+=1
         if licz==0:
             T.append(t)
