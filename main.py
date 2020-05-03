@@ -130,8 +130,15 @@ async def db_task_5(category: str=None):
 			JOIN customers ON customers.CustomerId = invoices.CustomerId
 			)GROUP BY CustomerId ORDER BY Sum DESC, CustomerId ASC
 			""").fetchall()
-
-		return data
+		content = []
+		for i in data:
+			content.append(CustomerStat(
+				CustomerId = i[0],
+				Email = i[1],
+				Phone = i[2],
+				Sum = round(i[3],2)
+				))
+		return content
 	elif category == "genres":
 		cursor = app.db_connection.cursor()
 		app.db_connection.row_factory = sqlite3.Row
@@ -140,7 +147,7 @@ async def db_task_5(category: str=None):
 			SELECT * FROM genres 
 			JOIN tracks ON tracks.GenreId = genres.GenreId
 			JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId
-			)GROUP BY GenreId ORDER BY Sum DESC, Name ASC
+			)GROUP BY GenreId ORDER BY Sum,customerid DESC, Name ASC
 			""").fetchall()
 		item={"AlbumId": new_album_id, "Title": album.title, "ArtistId": album.artist_id}
 		content = []
