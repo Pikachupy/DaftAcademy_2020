@@ -32,27 +32,13 @@ class Item(BaseModel):
 
 	
 
-@app.get("/tracks")#,response_model = Track)
-async def db_task_1(page: int = 0, per_page: int = 10):
-	cursor = app.db_connection.cursor()
-	tracks = cursor.execute(f"SELECT * FROM tracks WHERE TrackId <= {per_page*(page+1)} AND TrackId > {per_page*page}").fetchall()
-	tracks_list = []
-	for i in tracks:
-
-		tracks_list.append(Track(
-			TrackId=i[0],
-			Name=i[1],
-			AlbumId=i[2],
-			MediaTypeId=i[3],
-			GenreId=i[4],
-			Composer=i[5],
-			Milliseconds=i[6],
-			Bytes=i[7],
-			UnitPrice=i[8]
-			))
-	print(len(tracks_list))
-	return tracks_list
-
+@app.get("/tracks")
+def get_tracks(page:int =0, per_page:int =10):
+	with sqlite3.connect('chinook.db') as connection:
+		connection.row_factory = sqlite3.Row
+		cursor = connection.cursor()
+		tracks = cursor.execute("SELECT * FROM tracks LIMIT ? OFFSET ? ",(per_page,page*per_page)).fetchall()
+		return tracks
 '''      
 @app.get("/tracks")
 async def getgtracks():
