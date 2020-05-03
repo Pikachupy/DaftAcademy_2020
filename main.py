@@ -131,15 +131,8 @@ async def db_task_5(category: str=None):
 			JOIN customers ON customers.CustomerId = invoices.CustomerId
 			)GROUP BY CustomerId ORDER BY Sum DESC, CustomerId ASC
 			""").fetchall()
-		content = []
-		for i in data:
-			content.append(CustomerStat(
-				CustomerId = i[0],
-				Email = i[1],
-				Phone = i[2],
-				Sum = round(i[3],2)
-				))
-		return content
+
+		return data
 	elif category == "genres":
 		cursor = app.db_connection.cursor()
 		app.db_connection.row_factory = sqlite3.Row
