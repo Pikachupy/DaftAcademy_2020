@@ -121,5 +121,6 @@ async def sale(category):
         t.append(data[i][0])
         t.append(data[i][1])
         T.append(t)
+        t=[]
         i+=1
     return T
