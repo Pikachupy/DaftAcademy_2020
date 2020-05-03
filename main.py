@@ -14,10 +14,6 @@ security = HTTPBasic()
 
 from pydantic import BaseModel
 
-class Album(BaseModel):
-    title: str
-    artist_id: int
-
 
 @app.on_event("startup")
 async def startup():
@@ -34,14 +30,37 @@ class Item(BaseModel):
     per_page: int = 10
     page: int = 0
 
-        
-@app.get("/tracks/?{cos}")
+	
+
+@app.get("/tracks")#,response_model = Track)
+async def db_task_1(page: int = 0, per_page: int = 10):
+	cursor = app.db_connection.cursor()
+	tracks = cursor.execute(f"SELECT * FROM tracks WHERE TrackId <= {per_page*(page+1)} AND TrackId > {per_page*page}").fetchall()
+	tracks_list = []
+	for i in tracks:
+
+		tracks_list.append(Track(
+			TrackId=i[0],
+			Name=i[1],
+			AlbumId=i[2],
+			MediaTypeId=i[3],
+			GenreId=i[4],
+			Composer=i[5],
+			Milliseconds=i[6],
+			Bytes=i[7],
+			UnitPrice=i[8]
+			))
+	print(len(tracks_list))
+	return tracks_list
+
+'''      
+@app.get("/tracks")
 async def getgtracks():
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute('SELECT * FROM tracks ORDER BY TrackId LIMIT ? OFFSET ?',(item,item)).fetchall()                  
     return data
     
-    
+
 #zadanie_2:
 @app.get("/tracks/composers/")
 async def tracks_with_comp(composer_name): 
@@ -79,7 +98,7 @@ async def albid(album_id: int):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute(f'SELECT albumid,title,artistid FROM albums WHERE albumid={album_id}').fetchone()
     return data
-'''    
+    
 #zadanie_4: xxx
 class Customer(BaseModel):
     CustomerId: int
@@ -103,7 +122,6 @@ async def cust(customer_id: int, customer: Customer):
     if not (customer_id in data2):
         item={"detail": {"error":str(customer_id)} }
         return JSONResponse(status_code=404, content=item)
-'''
 class Tab:
     cid: int
     tot: int
@@ -119,6 +137,8 @@ class CustomerStat(BaseModel):
 class GenresStat(BaseModel):
 	Name: str = None
 	Sum: int = None
+		
+
 
 @app.get("/sales")
 async def db_task_5(category: str=None):
@@ -160,7 +180,7 @@ async def db_task_5(category: str=None):
 	else:
 		item={"detail": {"error":str(category)} }
 		return JSONResponse(status_code=404,content=item)
- 
+
 class ResponseTask4(BaseModel):
 	CustomerId: int = None
 	FirstName: str = None
@@ -208,7 +228,7 @@ async def db_task_4(customer_id: int,data: dict):
 	return JSONResponse(status_code=200,content=jsonable_encoder(content))
 
 
-'''
+
 @app.get("/sales")
 async def sale(category): 
     app.db_connection.row_factory = sqlite3.Row
