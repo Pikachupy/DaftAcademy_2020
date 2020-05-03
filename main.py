@@ -79,7 +79,7 @@ async def albid(album_id: int):
     app.db_connection.row_factory = sqlite3.Row
     data = app.db_connection.execute(f'SELECT albumid,title,artistid FROM albums WHERE albumid={album_id}').fetchone()
     return data
-    
+'''    
 #zadanie_4: xxx
 class Customer(BaseModel):
     CustomerId: int
@@ -103,7 +103,7 @@ async def cust(customer_id: int, customer: Customer):
     if not (customer_id in data2):
         item={"detail": {"error":str(customer_id)} }
         return JSONResponse(status_code=404, content=item)
-
+'''
 class Tab:
     cid: int
     tot: int
@@ -161,6 +161,52 @@ async def db_task_5(category: str=None):
 		item={"detail": {"error":str(category)} }
 		return JSONResponse(status_code=404,content=item)
  
+class ResponseTask4(BaseModel):
+	CustomerId: int = None
+	FirstName: str = None
+	LastName: str = None
+	Company: str = None
+	Address: str = None
+	City: str = None
+	State: str = None
+	Country: str = None
+	PostalCode: str = None
+	Phone: str = None
+	Fax: str = None
+	Email: str = None
+	SupportRepId: int = None
+		
+from fastapi.encoders import jsonable_encoder
+
+
+@app.put("/customers/{customer_id}")
+async def db_task_4(customer_id: int,data: dict):
+	cursor = app.db_connection.cursor()
+	is_customer_exist = cursor.execute("SELECT CustomerId FROM customers WHERE CustomerId=:id",{"id": customer_id}).fetchall()
+	if len(is_customer_exist) == 0:
+		item='error'
+		return JSONResponse(status_code=404,content=item)
+	for i in data:
+		cursor.execute(f"UPDATE customers SET {i} = :value WHERE CustomerId=:id",
+			{"value": data[i], "id": customer_id})	
+	client = cursor.execute("SELECT * FROM customers WHERE CustomerId=:id",{"id": customer_id}).fetchall()
+	content = ResponseTask4(
+		CustomerId = client[0][0],
+		FirstName = client[0][1],
+		LastName= client[0][2],
+		Company= client[0][3],
+		Address= client[0][4],
+		City = client[0][5],
+		State = client[0][6],
+		Country = client[0][7],
+		PostalCode = client[0][8],
+		Phone = client[0][9],
+		Fax = client[0][10],
+		Email = client[0][11],
+		SupportRepId = client[0][12]
+		)
+	return JSONResponse(status_code=200,content=jsonable_encoder(content))
+
 
 '''
 @app.get("/sales")
