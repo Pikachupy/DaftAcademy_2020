@@ -120,9 +120,6 @@ class GenresStat(BaseModel):
 	Name: str = None
 	Sum: int = None
 
-class Category404(BaseModel):
-	detail: Error = Error(error="No such Category")
-
 @app.get("/sales")
 async def db_task_5(category: str=None):
 	if category == "customers":
@@ -159,7 +156,8 @@ async def db_task_5(category: str=None):
 				))
 		return content
 	else:
-		return JSONResponse(status_code=404,content=jsonable_encoder(Category404()))
+		item="error"
+		return JSONResponse(status_code=404,content=item)
     
 '''
 @app.get("/sales")
