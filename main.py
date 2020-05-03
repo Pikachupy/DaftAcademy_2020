@@ -120,7 +120,13 @@ async def sale(category):
     while i<len(data):
         t.append(data[i][0])
         t.append(data[i][1])
-        T.append(t)
+        licz=0
+        for i in T:
+            if i[0]==t[0]:
+                i[1]+=t[1]
+                licz+=1
+        if licz==0:
+            T.append(t)
         t=[]
         i+=1
     return T
