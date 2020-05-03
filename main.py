@@ -8,8 +8,6 @@ from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 from fastapi.responses import JSONResponse
 from typing import Set
-
-
 app = FastAPI()
 
 security = HTTPBasic()
@@ -124,7 +122,3 @@ async def sale(category):
         t.tot=data[i][1]
         T.append(t)
     return T
-
-    
-    
-    
