@@ -161,13 +161,7 @@ async def db_task_5(category: str=None):
 		item={"detail": {"error":str(category)} }
 		return JSONResponse(status_code=404,content=item)
  
-@router.get("/tracks")
-async def tracks(page: int = 0, per_page: int = 10):
-	router.db_connection.row_factory = aiosqlite.Row
-	cursor = await router.db_connection.execute("SELECT * FROM tracks ORDER BY TrackId LIMIT :per_page OFFSET :per_page*:page",
-		{'page': page, 'per_page': per_page})
-	tracks = await cursor.fetchall()
-	return 
+
 '''
 @app.get("/sales")
 async def sale(category): 
