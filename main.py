@@ -155,7 +155,7 @@ def delte_patient(pk: int, is_logged: bool = Depends(is_logged)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 #4th
-
+'''
 from fastapi import FastAPI, HTTPException, status
 
 import crud
@@ -248,3 +248,4 @@ def customers_expenses(category: str):
 
 
 "uvicorn main:app --reload"
+'''
