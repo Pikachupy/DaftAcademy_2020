@@ -41,13 +41,14 @@ def show_patient(pk: int):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 #3rd
+'''
 import secrets
 from typing import Dict, Optional
 
 from fastapi import Depends, FastAPI, Response, status, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.security import APIKeyCookie, HTTPBasic, HTTPBasicCredentials
-from jose import jwt
+#from jose import jwt
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 
@@ -74,7 +75,7 @@ app = DaftAPI()
 
 def is_logged(session: str = Depends(app.cookie_sec), silent: bool = False):
     try:
-        payload = jwt.decode(session, app.secret_key)
+        #payload = jwt.decode(session, app.secret_key)
         return payload.get("magic_key")
     except Exception:
         pass
@@ -116,7 +117,7 @@ async def login_basic(auth: bool = Depends(authethicate)):
         return response
 
     response = RedirectResponse(url="/welcome")
-    token = jwt.encode({"magic_key": True}, app.secret_key)
+    #token = jwt.encode({"magic_key": True}, app.secret_key)
     response.set_cookie("session", token)
     return response
 
@@ -153,9 +154,9 @@ def delte_patient(pk: int, is_logged: bool = Depends(is_logged)):
     if pk in app.storage:
         del app.storage[pk]
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+'''
 
 #4th
-'''
 from fastapi import FastAPI, HTTPException, status
 
 import crud
@@ -248,4 +249,4 @@ def customers_expenses(category: str):
 
 
 "uvicorn main:app --reload"
-'''
+
