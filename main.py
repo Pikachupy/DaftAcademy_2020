@@ -23,7 +23,7 @@ def read_root():
 
 @app.api_route(path="/method", methods=["GET", "POST", "DELETE", "PUT", "OPTIONS"])
 def read_request(request: Request):
-    return {"method": request.method}
+    return {"METHOD": request.method}
 
 
 @app.post("/patient")
